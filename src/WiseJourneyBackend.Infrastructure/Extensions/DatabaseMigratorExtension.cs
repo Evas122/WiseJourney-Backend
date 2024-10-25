@@ -5,7 +5,7 @@ using WiseJourneyBackend.Infrastructure.Interfaces;
 namespace WiseJourneyBackend.Infrastructure.Extensions;
 public static class DatabaseMigratorExtension
 {
-    public static void AddDatabaseMigrator( this IServiceCollection services)
+    public static void AddDatabaseMigratorExtension( this IServiceCollection services)
     {
         services.AddScoped<IDatabaseMigrator, DatabaseMigrator>();
     }

@@ -1,7 +1,7 @@
 ﻿namespace WiseJourneyBackend.Api.Extensions;
 public static class CorsExtension
 {
-    public static void AddCors(this IServiceCollection services, IConfiguration configuration)
+    public static void AddCorsExtension(this IServiceCollection services, IConfiguration configuration)
     {
         var allowedOrigins = configuration.GetSection("Cors:AllowedOrigins").Get<string[]>();
 

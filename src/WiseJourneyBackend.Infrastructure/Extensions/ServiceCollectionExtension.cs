@@ -6,15 +6,16 @@ using WiseJourneyBackend.Infrastructure.Data;
 namespace WiseJourneyBackend.Infrastructure.Extensions;
 public static class ServiceCollectionExtension
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddInfrastructureExtensions(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
-        services.AddDatabaseMigrator();
-        services.AddDateTimeProvider();
-        services.AddJwt(configuration);
-        services.AddExceptionsHandlers();
+        services.AddDatabaseMigratorExtension();
+        services.AddDateTimeProviderExtension();
+        services.AddJwtExtension(configuration);
+        services.AddExceptionsHandlersExtension();
+        services.AddHttpContextAccessor();
 
         return services;
     }

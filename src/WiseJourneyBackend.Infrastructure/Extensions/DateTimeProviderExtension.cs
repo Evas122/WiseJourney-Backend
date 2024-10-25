@@ -5,7 +5,7 @@ using WiseJourneyBackend.Infrastructure.Time;
 namespace WiseJourneyBackend.Infrastructure.Extensions;
 public static class DateTimeProviderExtension
 {
-    public static void AddDateTimeProvider(this IServiceCollection services)
+    public static void AddDateTimeProviderExtension(this IServiceCollection services)
     {
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
     }

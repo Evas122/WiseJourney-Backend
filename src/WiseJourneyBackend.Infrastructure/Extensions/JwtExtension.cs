@@ -8,7 +8,7 @@ using WiseJourneyBackend.Domain.Exceptions;
 namespace WiseJourneyBackend.Infrastructure.Extensions;
 public static class JwtExtension
 {
-    public static void AddJwt(this IServiceCollection services, IConfiguration configuration)
+    public static void AddJwtExtension(this IServiceCollection services, IConfiguration configuration)
     {
         var secretKey = configuration["Jwt:SecretKey"];
 

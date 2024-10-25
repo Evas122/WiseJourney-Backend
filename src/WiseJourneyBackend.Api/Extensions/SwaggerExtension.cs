@@ -3,11 +3,11 @@
 namespace WiseJourneyBackend.Api.Extensions;
 public static class SwaggerExtension
 {
-    public static IServiceCollection AddSwaggerDoc(this  IServiceCollection services)
+    public static IServiceCollection AddSwaggerDocExtension(this  IServiceCollection services)
     {
         services.AddSwaggerGen(c =>
         {
-            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Quiz API", Version = "v1" });
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "WiseJourney API", Version = "v1" });
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 Name = "Authorization",
