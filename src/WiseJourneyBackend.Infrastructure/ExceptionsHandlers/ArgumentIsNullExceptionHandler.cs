@@ -5,11 +5,11 @@ using Microsoft.Extensions.Logging;
 
 namespace WiseJourneyBackend.Infrastructure.ExceptionsHandlers;
 
-internal sealed class ArgumentNullExceptionHandler : IExceptionHandler
+internal sealed class ArgumentIsNullExceptionHandler : IExceptionHandler
 {
-    private readonly ILogger<ArgumentNullExceptionHandler> _logger;
+    private readonly ILogger<ArgumentIsNullExceptionHandler> _logger;
 
-    public ArgumentNullExceptionHandler(ILogger<ArgumentNullExceptionHandler> logger)
+    public ArgumentIsNullExceptionHandler(ILogger<ArgumentIsNullExceptionHandler> logger)
     {
         _logger = logger;
     }

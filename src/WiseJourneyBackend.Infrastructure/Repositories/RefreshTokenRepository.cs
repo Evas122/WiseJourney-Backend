@@ -1,0 +1,54 @@
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
+using WiseJourneyBackend.Application.Interfaces;
+using WiseJourneyBackend.Domain.Entities;
+using WiseJourneyBackend.Domain.Repositories;
+using WiseJourneyBackend.Infrastructure.Data;
+
+namespace WiseJourneyBackend.Infrastructure.Repositories;
+
+public class RefreshTokenRepository : IRefreshTokenRepository
+{
+    private readonly AppDbContext _dbContext;
+    private readonly IDateTimeProvider _dateTimeProvider;
+
+    public RefreshTokenRepository(AppDbContext dbContext, IDateTimeProvider dateTimeProvider)
+    {
+        _dbContext = dbContext;
+        _dateTimeProvider = dateTimeProvider;
+    }
+    public async Task<RefreshToken?> GetRefreshTokenByUserIdAsync(Guid userId)
+    {
+        return await _dbContext.RefreshTokens.FirstOrDefaultAsync(rt => rt.UserId == userId && rt.ExpiresAtUtc > _dateTimeProvider.UtcNow && !rt.IsRevoked);
+    }
+
+    public async Task AddAsync(RefreshToken refreshToken)
+    {
+        _dbContext.RefreshTokens.Add(refreshToken);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task UpdateAsync(RefreshToken refreshToken)
+    {
+        _dbContext.RefreshTokens.Update(refreshToken);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<RefreshToken?> GetRefreshTokenByTokenAsync(string refreshToken)
+    {
+        return await _dbContext.RefreshTokens.FirstOrDefaultAsync(rt => rt.Token == refreshToken);
+    }
+
+    public async Task<List<RefreshToken>> GetAllActiveTokensAsync(Guid userId)
+    {
+        return await _dbContext.RefreshTokens
+            .Where(rt => rt.UserId == userId && !rt.IsRevoked)
+            .ToListAsync();
+    }
+
+    public async Task UpdateUserRefreshTokens(List<RefreshToken> refreshTokens)
+    {
+        _dbContext.RefreshTokens.UpdateRange(refreshTokens);
+        await _dbContext.SaveChangesAsync();
+    }
+}

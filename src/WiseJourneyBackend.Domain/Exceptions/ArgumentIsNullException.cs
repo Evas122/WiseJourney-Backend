@@ -1,22 +1,22 @@
 ﻿namespace WiseJourneyBackend.Domain.Exceptions;
 
-public class ArgumentNullException : Exception
+public class ArgumentIsNullException : Exception
 {
     public string ParamName { get; }
 
-    public ArgumentNullException(string paramName)
+    public ArgumentIsNullException(string paramName)
         : base(ValidateParam(paramName))
     {
         ParamName = paramName;
     }
 
-    public ArgumentNullException(string paramName, string message)
+    public ArgumentIsNullException(string paramName, string message)
         : base(message)
     {
         ParamName = paramName;
     }
 
-    public ArgumentNullException(string paramName, string message, Exception innerException)
+    public ArgumentIsNullException(string paramName, string message, Exception innerException)
         : base(message, innerException)
     {
         ParamName = paramName;
