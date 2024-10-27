@@ -1,4 +1,5 @@
 ﻿namespace WiseJourneyBackend.Api.Extensions;
+
 public static class CorsExtension
 {
     public static void AddCorsExtension(this IServiceCollection services, IConfiguration configuration)

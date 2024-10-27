@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using WiseJourneyBackend.Domain.Exceptions;
 
 namespace WiseJourneyBackend.Infrastructure.ExceptionsHandlers;
+
 internal sealed class NotFoundExceptionHandler : IExceptionHandler
 {
     private readonly ILogger<NotFoundExceptionHandler> _logger;

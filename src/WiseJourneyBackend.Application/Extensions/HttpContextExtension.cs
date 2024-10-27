@@ -3,6 +3,7 @@ using System.Security.Claims;
 using WiseJourneyBackend.Domain.Exceptions;
 
 namespace WiseJourneyBackend.Application.Extensions;
+
 public static class HttpContextExtension
 {
     public static Guid GetUserId(this IHttpContextAccessor httpContextAccessor)

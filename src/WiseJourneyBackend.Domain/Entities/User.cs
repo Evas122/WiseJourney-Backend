@@ -1,6 +1,7 @@
 ﻿using WiseJourneyBackend.Domain.Common;
 
 namespace WiseJourneyBackend.Domain.Entities;
+
 public class User : BaseEntity
 {
     public string UserName { get; set; } = null!;

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace WiseJourneyBackend.Api.Controllers;
+
 [SwaggerTag("Temporary - debug only")]
 public class DebugController : BaseController
 {

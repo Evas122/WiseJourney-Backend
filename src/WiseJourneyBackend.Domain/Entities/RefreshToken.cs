@@ -1,4 +1,5 @@
 ﻿namespace WiseJourneyBackend.Domain.Entities;
+
 public class RefreshToken
 {
     public Guid Id { get; set; }

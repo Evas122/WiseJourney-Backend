@@ -1,4 +1,5 @@
 ﻿namespace WiseJourneyBackend.Domain.Exceptions;
+
 public class ConfigurationException : Exception
 {
     public ConfigurationException(string message)

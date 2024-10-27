@@ -1,4 +1,5 @@
 ﻿namespace WiseJourneyBackend.Domain.Exceptions;
+
 public class NotFoundException : Exception
 {
     public string ResourceType { get; }

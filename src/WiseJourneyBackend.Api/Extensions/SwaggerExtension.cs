@@ -1,6 +1,7 @@
 ﻿using Microsoft.OpenApi.Models;
 
 namespace WiseJourneyBackend.Api.Extensions;
+
 public static class SwaggerExtension
 {
     public static IServiceCollection AddSwaggerDocExtension(this  IServiceCollection services)

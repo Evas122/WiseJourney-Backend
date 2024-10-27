@@ -2,6 +2,7 @@
 using WiseJourneyBackend.Infrastructure.ExceptionsHandlers;
 
 namespace WiseJourneyBackend.Infrastructure.Extensions;
+
 public static class ExceptionsHandlersExtension
 {
     public static IServiceCollection AddExceptionsHandlersExtension(this IServiceCollection services)

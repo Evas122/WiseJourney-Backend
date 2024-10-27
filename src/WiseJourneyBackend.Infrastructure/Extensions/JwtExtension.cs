@@ -6,6 +6,7 @@ using System.Text;
 using WiseJourneyBackend.Domain.Exceptions;
 
 namespace WiseJourneyBackend.Infrastructure.Extensions;
+
 public static class JwtExtension
 {
     public static void AddJwtExtension(this IServiceCollection services, IConfiguration configuration)

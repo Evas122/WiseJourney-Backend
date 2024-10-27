@@ -2,6 +2,7 @@
 using WiseJourneyBackend.Infrastructure.Interfaces;
 
 namespace WiseJourneyBackend.Infrastructure.Data;
+
 public class DatabaseMigrator : IDatabaseMigrator
 {
     private readonly AppDbContext _dbContext;

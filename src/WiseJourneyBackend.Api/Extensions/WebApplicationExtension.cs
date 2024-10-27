@@ -1,6 +1,7 @@
 ﻿using WiseJourneyBackend.Infrastructure.Interfaces;
 
 namespace WiseJourneyBackend.Api.Extensions;
+
 public static class WebApplicationExtension
 {
     public static async Task EnsureDatabaseMigratedAsync(this WebApplication webApplication)

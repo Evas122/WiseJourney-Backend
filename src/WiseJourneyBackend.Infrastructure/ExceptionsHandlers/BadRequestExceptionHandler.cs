@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using WiseJourneyBackend.Domain.Exceptions;
 
 namespace WiseJourneyBackend.Infrastructure.ExceptionsHandlers;
+
 internal sealed class BadRequestExceptionHandler : IExceptionHandler
 {
     private readonly ILogger<BadRequestExceptionHandler> _logger;

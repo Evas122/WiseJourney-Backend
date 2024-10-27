@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace WiseJourneyBackend.Infrastructure.ExceptionsHandlers;
+
 internal sealed class GlobalExceptionHandler : IExceptionHandler
 {
     private readonly ILogger<GlobalExceptionHandler> _logger;

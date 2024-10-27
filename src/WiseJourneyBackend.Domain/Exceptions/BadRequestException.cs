@@ -1,4 +1,5 @@
 ﻿namespace WiseJourneyBackend.Domain.Exceptions;
+
 public class BadRequestException : Exception
 {
     public IDictionary<string, string[]> Errors { get; }

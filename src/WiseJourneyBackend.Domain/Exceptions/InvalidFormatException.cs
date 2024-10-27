@@ -1,4 +1,5 @@
 ﻿namespace WiseJourneyBackend.Domain.Exceptions;
+
 public class InvalidFormatException : Exception
 {
     public string? InvalidValue { get; }

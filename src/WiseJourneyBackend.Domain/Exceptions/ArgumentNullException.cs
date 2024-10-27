@@ -1,4 +1,5 @@
 ﻿namespace WiseJourneyBackend.Domain.Exceptions;
+
 public class ArgumentNullException : Exception
 {
     public string ParamName { get; }

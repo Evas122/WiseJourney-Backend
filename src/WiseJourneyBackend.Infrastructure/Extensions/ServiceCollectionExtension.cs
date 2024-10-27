@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using WiseJourneyBackend.Infrastructure.Data;
 
 namespace WiseJourneyBackend.Infrastructure.Extensions;
+
 public static class ServiceCollectionExtension
 {
     public static IServiceCollection AddInfrastructureExtensions(this IServiceCollection services, IConfiguration configuration)
