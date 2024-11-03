@@ -9,11 +9,11 @@ public static class ExceptionsHandlersExtension
     {
         services.AddExceptionHandler<NotFoundExceptionHandler>();
         services.AddExceptionHandler<BadRequestExceptionHandler>();
-        services.AddExceptionHandler<GlobalExceptionHandler>();
         services.AddExceptionHandler<ArgumentIsNullExceptionHandler>();
         services.AddExceptionHandler<ConfigurationExceptionHandler>();
         services.AddExceptionHandler<InvalidFormatExceptionHandler>();
         services.AddExceptionHandler<AlreadyExistsExceptionHandler>();
+        services.AddExceptionHandler<GlobalExceptionHandler>();
 
         services.AddProblemDetails();
 

@@ -31,7 +31,7 @@ internal sealed class AlreadyExistsExceptionHandler : IExceptionHandler
         var problemDetails = new ProblemDetails
         {
             Status = StatusCodes.Status409Conflict,
-            Title = "AlreadyExist Error",
+            Title = "Already Exist Error",
             Detail = $"'{alreadyExistsException.ExistsValue}' already exists."
         };
 

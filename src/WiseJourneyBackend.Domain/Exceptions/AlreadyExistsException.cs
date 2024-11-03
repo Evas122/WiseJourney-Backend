@@ -2,12 +2,7 @@
 
 public class AlreadyExistsException : Exception
 {
-    public string? ExistsValue { get; }
-
-    public AlreadyExistsException(string message)
-        : base(message)
-    {
-    }
+    public string ExistsValue { get; }
 
     public AlreadyExistsException(string message, string existsValue)
         : base(message)
@@ -15,8 +10,9 @@ public class AlreadyExistsException : Exception
         ExistsValue = existsValue;
     }
 
-    public AlreadyExistsException(string message, Exception innerException)
+    public AlreadyExistsException(string ExistValue, string message, Exception innerException)
         : base(message, innerException)
     {
+        ExistsValue = ExistValue;
     }
 }

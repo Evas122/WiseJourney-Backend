@@ -1,7 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WiseJourneyBackend.Application.Interfaces;
+using WiseJourneyBackend.Domain.Entities;
 using WiseJourneyBackend.Infrastructure.Data;
+using WiseJourneyBackend.Infrastructure.Services;
 
 namespace WiseJourneyBackend.Infrastructure.Extensions;
 
@@ -17,6 +21,10 @@ public static class ServiceCollectionExtension
         services.AddJwtExtension(configuration);
         services.AddExceptionsHandlersExtension();
         services.AddHttpContextAccessor();
+        services.AddEmailExtensions(configuration);
+        services.AddAuthExtensions();
+        
+        services.AddRepositories();
 
         return services;
     }

@@ -34,6 +34,7 @@ public static class SwaggerExtension
             });
             c.EnableAnnotations();
         });
+        services.AddSwaggerGenNewtonsoftSupport();
         return services;
     }
 }

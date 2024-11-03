@@ -8,4 +8,5 @@ public class User : BaseEntity
     public string Email { get; set; } = null!;
     public bool EmailConfirmed { get; set; } = false;
     public string PasswordHash { get; set; } = null!;
+    public ICollection<RefreshToken> RefreshTokens { get; set; } = [];
 }

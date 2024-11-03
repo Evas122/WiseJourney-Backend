@@ -1,7 +1,3 @@
 ﻿namespace WiseJourneyBackend.Application.Dtos.Auth;
 
-public class AuthResultDto
-{
-    public string AccessToken { get; set; }
-    public string RefreshToken { get; set; }
-}
+public record AuthResultDto(string AccessToken, string RefreshToken);

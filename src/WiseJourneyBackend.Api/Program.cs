@@ -12,6 +12,9 @@ builder.Services.AddSwaggerDocExtension();
 builder.Services.AddInfrastructureExtensions(builder.Configuration);
 builder.Services.AddApiExtensions(builder.Configuration);
 
+builder.Services.AddRouting(options =>
+options.LowercaseUrls = true);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -27,7 +30,7 @@ app.UseAuthorization();
 app.UseCors("AllowSpecificOrigins");
 
 app.MapControllers();
-//uncomment if database will be ready
-//await app.EnsureDatabaseMigratedAsync();
+
+await app.EnsureDatabaseMigratedAsync();
 
 app.Run();

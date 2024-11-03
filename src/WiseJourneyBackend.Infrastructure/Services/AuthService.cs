@@ -1,18 +1,21 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FluentEmail.Core;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using WiseJourneyBackend.Application.Dtos.Auth;
 using WiseJourneyBackend.Application.Extensions;
 using WiseJourneyBackend.Application.Interfaces;
 using WiseJourneyBackend.Domain.Entities;
+using WiseJourneyBackend.Domain.Enums;
 using WiseJourneyBackend.Domain.Exceptions;
 using WiseJourneyBackend.Domain.Repositories;
 using WiseJourneyBackend.Infrastructure.Interfaces;
 
 namespace WiseJourneyBackend.Infrastructure.Services;
 
-public class AuthService
+public class AuthService : IAuthService
 {
     private readonly IUserRepository _userRepository;
     private readonly IRefreshTokenRepository _refreshTokenRepository;
@@ -21,8 +24,16 @@ public class AuthService
     private readonly IDateTimeProvider _dateTimeProvider;
     private readonly IConfiguration _configuration;
     private readonly IHttpContextAccessor _httpContenxtAccessor;
+    private readonly IEmailService _emailService;
 
-    public AuthService(IUserRepository userRepository, IRefreshTokenRepository refreshTokenRepository, IJwtService jwtService, IPasswordHasher<User> passwordHasher, IDateTimeProvider dateTimeProvider, IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
+    public AuthService(IUserRepository userRepository,
+        IRefreshTokenRepository refreshTokenRepository,
+        IJwtService jwtService,
+        IPasswordHasher<User> passwordHasher,
+        IDateTimeProvider dateTimeProvider,
+        IConfiguration configuration,
+        IHttpContextAccessor httpContextAccessor,
+        IEmailService emailService)
     {
         _userRepository = userRepository;
         _refreshTokenRepository = refreshTokenRepository;
@@ -31,6 +42,7 @@ public class AuthService
         _dateTimeProvider = dateTimeProvider;
         _configuration = configuration;
         _httpContenxtAccessor = httpContextAccessor;
+        _emailService = emailService;
     }
 
     public async Task RegisterAsync(RegisterDto registerDto)
@@ -38,7 +50,7 @@ public class AuthService
         bool emailExists = await _userRepository.IsEmailExistsAsync(registerDto.Email);
         if (emailExists)
         {
-            throw new AlreadyExistsException("This email already exists", registerDto.Email);
+            throw new AlreadyExistsException("This email already in use", registerDto.Email);
         }
 
         var user = new User
@@ -52,6 +64,11 @@ public class AuthService
         user.PasswordHash = _passwordHasher.HashPassword(user, registerDto.Password);
 
         await _userRepository.AddAsync(user);
+
+        var emailVerificationToken = _jwtService.GenerateEmailVerificationToken(user);
+
+        await _emailService.SendVerificationEmail(user, emailVerificationToken);
+
     }
 
     public async Task<AuthResultDto> LoginAsync(LoginDto loginDto)
@@ -72,11 +89,7 @@ public class AuthService
         var accessToken = _jwtService.GenerateJwtToken(claims);
         var refreshToken = await RetrieveRefreshTokenAsync(user.Id);
 
-        return new AuthResultDto
-        {
-            AccessToken = accessToken,
-            RefreshToken = refreshToken
-        };
+        return new AuthResultDto(accessToken, refreshToken);
     }
 
     public async Task<AuthResultDto> RefreshTokenAsync(string refreshToken)
@@ -99,11 +112,7 @@ public class AuthService
         var claims = _jwtService.GetClaims(user);
         var newJwtToken = _jwtService.GenerateJwtToken(claims);
 
-        return new AuthResultDto
-        {
-            AccessToken = newJwtToken,
-            RefreshToken = refreshToken
-        };
+        return new AuthResultDto(newJwtToken, refreshToken);
     }
 
     public async Task Logout()
@@ -138,5 +147,77 @@ public class AuthService
         await _refreshTokenRepository.AddAsync(newRefreshToken);
 
         return newRefreshToken.Token;
+    }
+
+    public async Task SendPasswordResetAsync(string email)
+    {
+        var user = await _userRepository.GetByEmailAsync(email);
+        if (user == null)
+        {
+            throw new NotFoundException(nameof(user), email);
+        }
+
+        var resetPasswordToken = _jwtService.GeneratePasswordResetToken(user);
+
+        await _emailService.SendResetPasswordEmail(user, resetPasswordToken);
+
+    }
+
+    public async Task<bool> VerifyEmailAsync(string token)
+    {
+        var principal = _jwtService.ValidateToken(token);
+        if (principal == null)
+            return false;
+
+        var tokenTypeClaim = principal.FindFirst("tokenType")?.Value;
+        if (tokenTypeClaim != TokenType.EmailConfirmation.ToString())
+            return false;
+
+        var userEmail = principal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+
+        if (string.IsNullOrEmpty(userEmail))
+        {
+            throw new NotFoundException("User", "claim not found in token.");
+        }
+
+        var user = await _userRepository.GetByEmailAsync(userEmail);
+
+        if (user == null)
+        {
+            throw new NotFoundException(nameof(user), userEmail);  
+        }
+
+        user.EmailConfirmed = true;
+        await _userRepository.UpdateAsync(user);
+        return true;
+    }
+
+    public async Task<bool> ResetPasswordAsync(string token, string newPassword)
+    {
+        var principal = _jwtService.ValidateToken(token);
+        if (principal == null)
+            return false;
+
+        var tokenTypeClaim = principal.FindFirst("tokenType")?.Value;
+        if (tokenTypeClaim != TokenType.PasswordReset.ToString())
+            return false;
+
+        var userEmail = principal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+
+        if (string.IsNullOrEmpty(userEmail))
+        {
+            throw new NotFoundException("User", "claim not found in token.");
+        }
+
+        var user = await _userRepository.GetByEmailAsync(userEmail);
+
+        if (user == null)
+        {
+            throw new NotFoundException(nameof(user), userEmail);
+        }
+
+        user.PasswordHash = _passwordHasher.HashPassword(user, newPassword);
+        await _userRepository.UpdateAsync(user);
+        return true;
     }
 }

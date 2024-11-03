@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using WiseJourneyBackend.Domain.Exceptions;
 
 namespace WiseJourneyBackend.Infrastructure.ExceptionsHandlers;
 
@@ -16,22 +17,22 @@ internal sealed class ArgumentIsNullExceptionHandler : IExceptionHandler
 
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
-        if (exception is not ArgumentNullException argumentNullException)
+        if (exception is not ArgumentIsNullException argumentIsNullException)
         {
             return false;
         }
 
         _logger.LogError(
-            argumentNullException,
+            argumentIsNullException,
             "ArgumentNullException occurred: {Message}, Parameter: {ParamName}",
-            argumentNullException.Message,
-            argumentNullException.ParamName);
+            argumentIsNullException.Message,
+            argumentIsNullException.ParamName);
 
         var problemDetails = new ProblemDetails
         {
             Status = StatusCodes.Status400BadRequest,
             Title = "Argument Null Error",
-            Detail = $"Parameter '{argumentNullException.ParamName}' cannot be null or whitespace."
+            Detail = $"Parameter '{argumentIsNullException.ParamName}' cannot be null or whitespace."
         };
 
         httpContext.Response.ContentType = "application/problem+json";

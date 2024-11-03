@@ -4,6 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using WiseJourneyBackend.Domain.Exceptions;
+using WiseJourneyBackend.Infrastructure.Interfaces;
+using WiseJourneyBackend.Infrastructure.Services;
 
 namespace WiseJourneyBackend.Infrastructure.Extensions;
 
@@ -44,5 +46,7 @@ public static class JwtExtension
                     }
                 };
             });
+
+        services.AddScoped<IJwtService, JwtService>();
     }
 }

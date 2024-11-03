@@ -4,10 +4,14 @@ using WiseJourneyBackend.Domain.Entities;
 
 namespace WiseJourneyBackend.Infrastructure.Data.Configurations;
 
-public class UserConfigiration : IEntityTypeConfiguration<User>
+internal sealed class UserConfigiration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
-        throw new NotImplementedException();
+        builder.HasKey(u  => u.Id);
+        builder.HasMany(u => u.RefreshTokens)
+              .WithOne(r => r.User)
+              .HasForeignKey(r => r.UserId)
+              .IsRequired();
     }
 }
