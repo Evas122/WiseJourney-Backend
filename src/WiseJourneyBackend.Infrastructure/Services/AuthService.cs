@@ -1,5 +1,4 @@
-﻿using FluentEmail.Core;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
@@ -96,7 +95,7 @@ public class AuthService : IAuthService
     {
         var refreshTokenEntity = await _refreshTokenRepository.GetRefreshTokenByTokenAsync(refreshToken);
 
-        if (refreshTokenEntity == null)
+        if (refreshTokenEntity == null || refreshTokenEntity.ExpiresAtUtc <= _dateTimeProvider.UtcNow || refreshTokenEntity.IsRevoked)
         {
             throw new BadRequestException("Invalid refresh token");
         }
@@ -119,19 +118,15 @@ public class AuthService : IAuthService
     {
         var userId = _httpContenxtAccessor.GetUserId();
         var refreshTokens = await _refreshTokenRepository.GetAllActiveTokensAsync(userId);
-        foreach (var refreshToken in refreshTokens)
-        {
-            refreshToken.IsRevoked = true;
-            refreshToken.RevokedAtUtc = _dateTimeProvider.UtcNow;
-        }
-        await _refreshTokenRepository.UpdateUserRefreshTokens(refreshTokens);
+        //TODO clear cookies instead tokens or something else
+        await _refreshTokenRepository.RemoveUserRefreshTokens(refreshTokens);
     }
 
     private async Task<string> RetrieveRefreshTokenAsync(Guid userId)
     {
         var existingRefreshToken = await _refreshTokenRepository.GetRefreshTokenByUserIdAsync(userId);
 
-        if (existingRefreshToken != null)
+        if (existingRefreshToken != null && existingRefreshToken.IsRevoked != true && existingRefreshToken.ExpiresAtUtc !> _dateTimeProvider.UtcNow)
         {
             return existingRefreshToken.Token;
         }

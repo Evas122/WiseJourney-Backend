@@ -1,5 +1,6 @@
 using WiseJourneyBackend.Infrastructure.Extensions;
 using WiseJourneyBackend.Api.Extensions;
+using WiseJourneyBackend.Application.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerDocExtension();
 builder.Services.AddInfrastructureExtensions(builder.Configuration);
 builder.Services.AddApiExtensions(builder.Configuration);
+builder.Services.AddApplicationExtensions();
 
 builder.Services.AddRouting(options =>
 options.LowercaseUrls = true);

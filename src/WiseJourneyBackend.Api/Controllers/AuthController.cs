@@ -39,8 +39,8 @@ public class AuthController : BaseController
         return Ok(new {Message = "Email succesfully verified."});
     }
 
-    [HttpPost("forget-password")]
-    public async Task<IActionResult> ForgetPassword([FromBody] string email)
+    [HttpPost("forgot-password")]
+    public async Task<IActionResult> ForgotPassword([FromBody] string email)
     {
         await _authService.SendPasswordResetAsync(email);
 
@@ -56,5 +56,21 @@ public class AuthController : BaseController
             return BadRequest(new { Message = "Invalid or expired token." });
         }
         return Ok(new { Message = "Password succesfully updated." });
+    }
+
+    [HttpPost("log-out")]
+    public async Task<IActionResult> Logout()
+    {
+        await _authService.Logout();
+
+        return Ok();
+    }
+
+    [HttpPost("refresh-token")]
+    public async Task<IActionResult> RefreshToken(string refreshToken)
+    {
+        var result = await _authService.RefreshTokenAsync(refreshToken);
+
+        return Ok(result);
     }
 }
