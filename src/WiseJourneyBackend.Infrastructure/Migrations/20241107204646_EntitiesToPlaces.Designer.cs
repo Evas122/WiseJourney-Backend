@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WiseJourneyBackend.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using WiseJourneyBackend.Infrastructure.Data;
 namespace WiseJourneyBackend.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241107204646_EntitiesToPlaces")]
+    partial class EntitiesToPlaces
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,7 +51,7 @@ namespace WiseJourneyBackend.Infrastructure.Migrations
                     b.HasIndex("PlaceId")
                         .IsUnique();
 
-                    b.ToTable("Geometries", (string)null);
+                    b.ToTable("Geometries");
                 });
 
             modelBuilder.Entity("WiseJourneyBackend.Domain.Entities.OpeningHour", b =>
@@ -74,7 +77,7 @@ namespace WiseJourneyBackend.Infrastructure.Migrations
                     b.HasIndex("PlaceId")
                         .IsUnique();
 
-                    b.ToTable("OpeningHours", (string)null);
+                    b.ToTable("OpeningHours");
                 });
 
             modelBuilder.Entity("WiseJourneyBackend.Domain.Entities.Place", b =>
@@ -112,7 +115,7 @@ namespace WiseJourneyBackend.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Places", (string)null);
+                    b.ToTable("Places");
                 });
 
             modelBuilder.Entity("WiseJourneyBackend.Domain.Entities.PlaceType", b =>
@@ -138,7 +141,7 @@ namespace WiseJourneyBackend.Infrastructure.Migrations
 
                     b.HasIndex("PlaceId");
 
-                    b.ToTable("PlacesType", (string)null);
+                    b.ToTable("PlacesType");
                 });
 
             modelBuilder.Entity("WiseJourneyBackend.Domain.Entities.RefreshToken", b =>
@@ -170,7 +173,7 @@ namespace WiseJourneyBackend.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("RefreshTokens", (string)null);
+                    b.ToTable("RefreshTokens");
                 });
 
             modelBuilder.Entity("WiseJourneyBackend.Domain.Entities.User", b =>
@@ -202,7 +205,7 @@ namespace WiseJourneyBackend.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("WiseJourneyBackend.Domain.Entities.WeeklyHour", b =>
@@ -233,7 +236,7 @@ namespace WiseJourneyBackend.Infrastructure.Migrations
 
                     b.HasIndex("OpeningHourId");
 
-                    b.ToTable("WeeklyHours", (string)null);
+                    b.ToTable("WeeklyHours");
                 });
 
             modelBuilder.Entity("WiseJourneyBackend.Domain.Entities.Geometry", b =>

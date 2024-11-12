@@ -22,6 +22,8 @@ public static class ServiceCollectionExtension
         
         services.AddRepositories();
 
+        services.AddGoogleExtension(configuration);
+
         return services;
     }
 }
