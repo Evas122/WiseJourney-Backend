@@ -48,7 +48,7 @@ namespace WiseJourneyBackend.Infrastructure.Migrations
                     b.HasIndex("PlaceId")
                         .IsUnique();
 
-                    b.ToTable("Geometries");
+                    b.ToTable("Geometries", (string)null);
                 });
 
             modelBuilder.Entity("WiseJourneyBackend.Domain.Entities.OpeningHour", b =>
@@ -74,7 +74,7 @@ namespace WiseJourneyBackend.Infrastructure.Migrations
                     b.HasIndex("PlaceId")
                         .IsUnique();
 
-                    b.ToTable("OpeningHours");
+                    b.ToTable("OpeningHours", (string)null);
                 });
 
             modelBuilder.Entity("WiseJourneyBackend.Domain.Entities.Place", b =>
@@ -112,7 +112,7 @@ namespace WiseJourneyBackend.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Places");
+                    b.ToTable("Places", (string)null);
                 });
 
             modelBuilder.Entity("WiseJourneyBackend.Domain.Entities.PlaceType", b =>
@@ -138,7 +138,7 @@ namespace WiseJourneyBackend.Infrastructure.Migrations
 
                     b.HasIndex("PlaceId");
 
-                    b.ToTable("PlacesType");
+                    b.ToTable("PlacesType", (string)null);
                 });
 
             modelBuilder.Entity("WiseJourneyBackend.Domain.Entities.RefreshToken", b =>
@@ -170,7 +170,7 @@ namespace WiseJourneyBackend.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("RefreshTokens");
+                    b.ToTable("RefreshTokens", (string)null);
                 });
 
             modelBuilder.Entity("WiseJourneyBackend.Domain.Entities.User", b =>
@@ -202,7 +202,7 @@ namespace WiseJourneyBackend.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("WiseJourneyBackend.Domain.Entities.WeeklyHour", b =>
@@ -233,7 +233,7 @@ namespace WiseJourneyBackend.Infrastructure.Migrations
 
                     b.HasIndex("OpeningHourId");
 
-                    b.ToTable("WeeklyHours");
+                    b.ToTable("WeeklyHours", (string)null);
                 });
 
             modelBuilder.Entity("WiseJourneyBackend.Domain.Entities.Geometry", b =>

@@ -4,6 +4,6 @@ namespace WiseJourneyBackend.Domain.Entities;
 
 public class PlaceType : BaseEntity
 {
-    public Guid PlaceId { get; set; }
+    public string PlaceId { get; set; } = null!;
     public string TypeName { get; set; } = null!;
 }

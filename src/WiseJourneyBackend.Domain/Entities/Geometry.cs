@@ -4,7 +4,7 @@ namespace WiseJourneyBackend.Domain.Entities;
 
 public class Geometry : BaseEntity
 {
-    public Guid PlaceId { get; set; }
-    public float Latitude { get; set; }
-    public float Longitude { get; set; }
+    public string PlaceId { get; set; } = null!;
+    public double Latitude { get; set; }
+    public double Longitude { get; set; }
 }
