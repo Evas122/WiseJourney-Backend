@@ -25,6 +25,20 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.SemanticKernel" Version="1.29.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Prompts\UserPreferences\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Prompts\UserPreferences\config.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Prompts\UserPreferences\skprompt.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

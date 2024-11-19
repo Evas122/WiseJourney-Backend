@@ -22,7 +22,7 @@ public class AuthService : IAuthService
     private readonly IPasswordHasher<User> _passwordHasher;
     private readonly IDateTimeProvider _dateTimeProvider;
     private readonly IConfiguration _configuration;
-    private readonly IHttpContextAccessor _httpContenxtAccessor;
+    private readonly IHttpContextAccessor _contextAccessor;
     private readonly IEmailService _emailService;
 
     public AuthService(IUserRepository userRepository,
@@ -31,7 +31,7 @@ public class AuthService : IAuthService
         IPasswordHasher<User> passwordHasher,
         IDateTimeProvider dateTimeProvider,
         IConfiguration configuration,
-        IHttpContextAccessor httpContextAccessor,
+        IHttpContextAccessor contextAccessor,
         IEmailService emailService)
     {
         _userRepository = userRepository;
@@ -40,7 +40,7 @@ public class AuthService : IAuthService
         _passwordHasher = passwordHasher;
         _dateTimeProvider = dateTimeProvider;
         _configuration = configuration;
-        _httpContenxtAccessor = httpContextAccessor;
+        _contextAccessor = contextAccessor;
         _emailService = emailService;
     }
 
@@ -116,7 +116,7 @@ public class AuthService : IAuthService
 
     public async Task Logout()
     {
-        var userId = _httpContenxtAccessor.GetUserId();
+        var userId = _contextAccessor.GetUserId();
         var refreshTokens = await _refreshTokenRepository.GetAllActiveTokensAsync(userId);
         //TODO clear cookies instead tokens or something else
         await _refreshTokenRepository.RemoveUserRefreshTokens(refreshTokens);
