@@ -1,4 +1,6 @@
-﻿namespace WiseJourneyBackend.Application.Interfaces;
+﻿using WiseJourneyBackend.Application.Cache;
+
+namespace WiseJourneyBackend.Application.Interfaces;
 
 public interface ICacheService
 {
@@ -7,4 +9,5 @@ public interface ICacheService
     void SetCache<T>(string key, T value) where T : class;
     void AddItemToLimitedList<T>(List<T> list, T item, int maxItems) where T : class;
     public string GetCacheKey(string key);
+    List<string> InterleaveChatHistoryMessages(ChatHistoryCacheData chatHistory);
 }

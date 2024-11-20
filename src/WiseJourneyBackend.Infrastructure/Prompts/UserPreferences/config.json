@@ -4,7 +4,7 @@
   "description": "Continues conversation with user to get journey preferences.",
   "execution_settings": {
     "default": {
-      "temperature": 0.4 
+      "temperature": 0.8 
     }
   },
   "input_variables": [

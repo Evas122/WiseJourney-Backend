@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using WiseJourneyBackend.Application.Cache;
 using WiseJourneyBackend.Application.Commands.SendPreferenceMessage;
 using WiseJourneyBackend.Application.Interfaces;
@@ -33,12 +34,22 @@ public class RecommendationService : IRecommendationService
         _cacheService.AddItemToLimitedList(chatHistoryCacheData.UserMessages, command.Message, 10);
         _cacheService.SetCache(cacheKey, chatHistoryCacheData);
 
-        var chatHistory = _cacheService.GetCache<ChatHistoryCacheData>(cacheKey);
+        var interleavedMessages = _cacheService.InterleaveChatHistoryMessages(chatHistoryCacheData);
 
-        var assistantResponse = await _kernelService.InvokeAsync(prompts["UserPreferences"], new() { { "chat_history", chatHistory } });
+        var chatHistoryJson = JsonConvert.SerializeObject(interleavedMessages);
+
+        var assistantResponse = await _kernelService.InvokeAsync(prompts["UserPreferences"], new() { { "chat_history", chatHistoryJson } });
 
         _cacheService.AddItemToLimitedList(chatHistoryCacheData.AssistantMessages, assistantResponse, 10);
         _cacheService.SetCache(cacheKey, chatHistoryCacheData);
+    }
 
+    public ChatHistoryCacheData GetChatHistoryCacheData()
+    {
+        var chatHistoryKey = _configuration["Cache:ChatHistoryKey"] ?? throw new ConfigurationException("Invalid Cache Key");
+        var cacheKey = _cacheService.GetCacheKey(chatHistoryKey);
+        var chatHistory = _cacheService.GetCache<ChatHistoryCacheData>(cacheKey);
+
+        return chatHistory ?? new ChatHistoryCacheData();
     }
 }

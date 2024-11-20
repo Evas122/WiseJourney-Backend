@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using WiseJourneyBackend.Application.Commands.SendPreferenceMessage;
+using WiseJourneyBackend.Application.Queries.ChatHistory;
 
 namespace WiseJourneyBackend.Api.Controllers;
 public class RecommendationController : BaseController
@@ -12,10 +13,18 @@ public class RecommendationController : BaseController
         _mediator = mediator;
     }
 
-    [HttpPost("sendMessage")]
+    [HttpPost("send-message")]
     public async Task<IActionResult> SendUserMessageToChat(SendPreferenceMessageCommand command)
     {
         var result = await _mediator.Send(command);
+
+        return Ok(result);
+    }
+
+    [HttpGet("chat-history")]
+    public async Task<IActionResult> GetUserChatHistory()
+    {
+        var result = await _mediator.Send(new GetChatHistoryQuery());
 
         return Ok(result);
     }

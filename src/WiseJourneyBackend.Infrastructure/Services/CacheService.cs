@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
+using WiseJourneyBackend.Application.Cache;
 using WiseJourneyBackend.Application.Extensions;
 using WiseJourneyBackend.Application.Interfaces;
 
@@ -49,5 +50,27 @@ public class CacheService : ICacheService
         var cacheKey = key + userId;
 
         return cacheKey;
+    }
+
+    public List<string> InterleaveChatHistoryMessages(ChatHistoryCacheData chatHistory)
+    {
+        var interleavedMessages = new List<string>();
+        var userMessages = chatHistory.UserMessages;
+        var assistantMessages = chatHistory.AssistantMessages;
+
+        int maxLength = Math.Max(userMessages.Count, assistantMessages.Count);
+
+        for (int i = 0; i < maxLength; i++)
+        {
+            if (i < userMessages.Count)
+            {
+                interleavedMessages.Add($"User: {userMessages[i]}");
+            }
+            if (i < assistantMessages.Count)
+            {
+                interleavedMessages.Add($"Assistant: {assistantMessages[i]}");
+            }
+        }
+        return interleavedMessages;
     }
 }
