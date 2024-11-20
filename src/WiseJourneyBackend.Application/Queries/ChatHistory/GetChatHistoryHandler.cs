@@ -14,10 +14,10 @@ public class GetChatHistoryHandler : IQueryHandler<GetChatHistoryQuery, ChatHist
         _recommendationService = recommendationService;
     }
 
-    public async Task<ChatHistoryCacheData> Handle(GetChatHistoryQuery query, CancellationToken cancellationToken)
+    public Task<ChatHistoryCacheData> Handle(GetChatHistoryQuery query, CancellationToken cancellationToken)
     {
-        var chatHistory = await Task.Run(() => _recommendationService.GetChatHistoryCacheData());
+        var chatHistory =  _recommendationService.GetChatHistoryCacheData();
 
-        return chatHistory;
+        return Task.FromResult(chatHistory);
     }
 }

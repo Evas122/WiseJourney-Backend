@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace WiseJourneyBackend.Application.Dtos.Recommendation;
 
-namespace WiseJourneyBackend.Application.Dtos.Recommendation;
-internal class UserPreferencesDto
-{
-}
+public record UserPreferencesDto(string DestinationType, decimal Budget,
+    int DurationInDays, string TravelStyle, string ClimatPreference,
+    string AccommodationType, string TransportyType, float MinRating,
+    string Cuisine, int MaxDistanceKm, List<string> Activities, DateTime PrefferedDate);

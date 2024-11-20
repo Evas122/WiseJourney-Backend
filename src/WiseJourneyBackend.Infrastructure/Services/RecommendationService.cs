@@ -34,9 +34,9 @@ public class RecommendationService : IRecommendationService
         _cacheService.AddItemToLimitedList(chatHistoryCacheData.UserMessages, command.Message, 10);
         _cacheService.SetCache(cacheKey, chatHistoryCacheData);
 
-        var interleavedMessages = _cacheService.InterleaveChatHistoryMessages(chatHistoryCacheData);
+        var interLeavedMessages = _cacheService.InterleaveChatHistoryMessages(chatHistoryCacheData);
 
-        var chatHistoryJson = JsonConvert.SerializeObject(interleavedMessages);
+        var chatHistoryJson = JsonConvert.SerializeObject(interLeavedMessages);
 
         var assistantResponse = await _kernelService.InvokeAsync(prompts["UserPreferences"], new() { { "chat_history", chatHistoryJson } });
 
@@ -48,8 +48,11 @@ public class RecommendationService : IRecommendationService
     {
         var chatHistoryKey = _configuration["Cache:ChatHistoryKey"] ?? throw new ConfigurationException("Invalid Cache Key");
         var cacheKey = _cacheService.GetCacheKey(chatHistoryKey);
-        var chatHistory = _cacheService.GetCache<ChatHistoryCacheData>(cacheKey);
 
-        return chatHistory ?? new ChatHistoryCacheData();
+        var chatHistoryCacheData = _cacheService.GetCache<ChatHistoryCacheData>(cacheKey) ?? new ChatHistoryCacheData();
+
+        _cacheService.AddItemToLimitedList(chatHistoryCacheData.AssistantMessages, "Hello tell me about your preferences to journey", 10);
+
+        return chatHistoryCacheData;
     }
 }
