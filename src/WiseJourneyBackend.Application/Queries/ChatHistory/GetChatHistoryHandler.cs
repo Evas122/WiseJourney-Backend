@@ -18,6 +18,6 @@ public class GetChatHistoryHandler : IQueryHandler<GetChatHistoryQuery, ChatHist
     {
         var chatHistory =  _recommendationService.GetChatHistoryCacheData();
 
-        return Task.FromResult(chatHistory);
+        return chatHistory;
     }
 }

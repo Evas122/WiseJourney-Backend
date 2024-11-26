@@ -29,14 +29,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Prompts\UserPreferences\" />
+    <Folder Include="Prompts\GetUserPreferences\" />
+    <Folder Include="Prompts\UserPreferencesChat\" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Prompts\UserPreferences\config.json">
+    <None Update="Prompts\GetUserPreferences\config.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Prompts\UserPreferences\skprompt.txt">
+    <None Update="Prompts\GetUserPreferences\skprompt.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Prompts\UserPreferencesChat\config.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Prompts\UserPreferencesChat\skprompt.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

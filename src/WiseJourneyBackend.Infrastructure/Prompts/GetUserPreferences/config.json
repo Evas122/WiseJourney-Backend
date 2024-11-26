@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "type": "completion",
+  "description": "Fill up json schema based on chat history.",
+  "execution_settings": {
+    "default": {
+      "temperature": 0.8
+    }
+  },
+  "input_variables": [
+    {
+      "name": "chat_history",
+      "description": "chat history between assistant and user.",
+      "required": true
+    },
+    {
+      "name": "json_schema",
+      "description": "json schema to fill up based on chat between assistant and user",
+      "required": true
+    }
+  ]
+}
