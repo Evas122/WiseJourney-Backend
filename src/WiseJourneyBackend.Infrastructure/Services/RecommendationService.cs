@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using WiseJourneyBackend.Application.Cache;
 using WiseJourneyBackend.Application.Commands.SendPreferenceMessage;
+using WiseJourneyBackend.Application.Dtos.Places;
 using WiseJourneyBackend.Application.Dtos.Recommendation;
 using WiseJourneyBackend.Application.Interfaces;
 using WiseJourneyBackend.Domain.Exceptions;
@@ -58,15 +59,22 @@ public class RecommendationService : IRecommendationService
         var prompts = _kernelService.ImportAllPlugins();
         var chatHistoryCacheData = GetOrInitializeChatHistory();
 
-        var lastAssistantMessage = chatHistoryCacheData.AssistantMessages.LastOrDefault();
+        var lastAssistantMessages = chatHistoryCacheData.AssistantMessages.TakeLast(2).ToList();
 
-        var userPreferencesDtoJson = await _kernelService.InvokeAsync(prompts["GetUserPreferences"], new() { { "last_assistant_message", lastAssistantMessage } });
+        var lastAssisstantMessagesJson = JsonConvert.SerializeObject(lastAssistantMessages);
+
+        var userPreferencesDtoJson = await _kernelService.InvokeAsync(prompts["GetUserPreferences"], new() { { "last_assistant_messages", lastAssisstantMessagesJson } });
 
         var validJson = ValidJson(userPreferencesDtoJson);
 
         var userPreferencesDto = JsonConvert.DeserializeObject<UserPreferencesDto>(validJson) ?? throw new BadRequestException("A problem has occured");
 
         return userPreferencesDto;
+    }
+
+    public async Task<PlaceDto> GetRecommendedPlacesAsync(UserPreferencesDto userPreferencesDto)
+    {
+        throw new NotImplementedException();
     }
 
     private ChatHistoryCacheData GetOrInitializeChatHistory(string defaultAssistantMessage = "", int maxItems = 13)

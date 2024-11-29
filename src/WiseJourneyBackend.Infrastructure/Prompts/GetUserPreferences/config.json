@@ -9,8 +9,8 @@
   },
   "input_variables": [
     {
-      "name": "last_assistant_message",
-      "description": "last assistant message with information to make user preferences.",
+      "name": "last_assistant_messages",
+      "description": "last assistant messages with information to make user preferences.",
       "required": true
     }
   ]
