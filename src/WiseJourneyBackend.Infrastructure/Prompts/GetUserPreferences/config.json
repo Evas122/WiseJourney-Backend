@@ -15,7 +15,7 @@
     },
     {
       "name": "json_schema",
-      "description": "json schema to fill up based on chat between assistant and user",
+      "description": "json schema to fill up based on chat history between assistant and user",
       "required": true
     }
   ]

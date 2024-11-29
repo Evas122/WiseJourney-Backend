@@ -1,4 +1,4 @@
 Based on the chat history:
 {{$chat_history}}
-Fill up this json schema about user Preferences:
-{{$json_schema}} and return.
+Fill up this json schema in English language about user Preferences:
+{{$json_schema}} and return result.

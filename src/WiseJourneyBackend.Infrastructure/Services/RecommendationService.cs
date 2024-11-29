@@ -31,7 +31,7 @@ public class RecommendationService : IRecommendationService
         var cacheKey = GetChatHistoryCacheKey();
         var chatHistoryCacheData = GetOrInitializeChatHistory();
 
-        _cacheService.AddItemToLimitedList(chatHistoryCacheData.UserMessages, command.Message, 10);
+        _cacheService.AddItemToLimitedList(chatHistoryCacheData.UserMessages, command.Message, 13);
         _cacheService.SetCache(cacheKey, chatHistoryCacheData);
 
         var interLeavedMessages = _cacheService.InterleaveChatHistoryMessages(chatHistoryCacheData);
@@ -40,15 +40,15 @@ public class RecommendationService : IRecommendationService
 
         var assistantResponse = await _kernelService.InvokeAsync(prompts["UserPreferencesChat"], new() { { "chat_history", chatHistoryJson } });
 
-        _cacheService.AddItemToLimitedList(chatHistoryCacheData.AssistantMessages, assistantResponse, 10);
+        _cacheService.AddItemToLimitedList(chatHistoryCacheData.AssistantMessages, assistantResponse, 13);
         _cacheService.SetCache(cacheKey, chatHistoryCacheData);
     }
 
     public Task<ChatHistoryCacheData> GetChatHistoryCacheData()
     {
-        var chatHistoryCacheData = GetOrInitializeChatHistory(@"Do you prefer to relax or engage in active experiences during your free time?
-                 For example, relaxing could mean enjoying a quiet day by the beach or a spa, while being active might involve hiking,
-                 exploring cities, or doing sports. What suits you best?");
+        var firstAssistantMessage = _configuration["ChatHistoryMessage:FirstMessageEnglish"] ?? throw new ConfigurationException("The message has not been set.");
+
+        var chatHistoryCacheData = GetOrInitializeChatHistory(firstAssistantMessage);
 
         return Task.FromResult(chatHistoryCacheData);
     }
@@ -75,7 +75,7 @@ public class RecommendationService : IRecommendationService
         return userPreferencesDto;
     }
 
-    private ChatHistoryCacheData GetOrInitializeChatHistory(string defaultAssistantMessage = "", int maxItems = 10)
+    private ChatHistoryCacheData GetOrInitializeChatHistory(string defaultAssistantMessage = "", int maxItems = 13)
     {
         var cacheKey = GetChatHistoryCacheKey();
 
