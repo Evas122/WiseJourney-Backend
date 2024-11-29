@@ -46,7 +46,7 @@ public class RecommendationService : IRecommendationService
 
     public Task<ChatHistoryCacheData> GetChatHistoryCacheData()
     {
-        var firstAssistantMessage = _configuration["ChatHistoryMessage:FirstMessageEnglish"] ?? throw new ConfigurationException("The message has not been set.");
+        var firstAssistantMessage = _configuration["ChatHistoryMessage:FirstMessagePolish"] ?? throw new ConfigurationException("The message has not been set.");
 
         var chatHistoryCacheData = GetOrInitializeChatHistory(firstAssistantMessage);
 
