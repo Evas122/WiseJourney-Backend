@@ -58,20 +58,14 @@ public class RecommendationService : IRecommendationService
         var prompts = _kernelService.ImportAllPlugins();
         var chatHistoryCacheData = GetOrInitializeChatHistory();
 
-        var chatHistoryJson = GetChatHistoryInterleaveMessages(chatHistoryCacheData);
-        var userPreferencesJson = JsonConvert.SerializeObject(chatHistoryCacheData);
+        var lastAssistantMessage = chatHistoryCacheData.AssistantMessages.LastOrDefault();
 
-        var userPreferencesDtoJson = await _kernelService.InvokeAsync(prompts["GetUserPreferences"], new() { { "chat_history", chatHistoryJson }
-        ,{"json_schema", userPreferencesJson} });
+        var userPreferencesDtoJson = await _kernelService.InvokeAsync(prompts["GetUserPreferences"], new() { { "last_assistant_message", lastAssistantMessage } });
 
         var validJson = ValidJson(userPreferencesDtoJson);
 
-        var userPreferencesDto = JsonConvert.DeserializeObject<UserPreferencesDto>(validJson);
+        var userPreferencesDto = JsonConvert.DeserializeObject<UserPreferencesDto>(validJson) ?? throw new BadRequestException("A problem has occured");
 
-        if(userPreferencesDto == null)
-        {
-            throw new BadRequestException("A problem has occured");
-        }
         return userPreferencesDto;
     }
 

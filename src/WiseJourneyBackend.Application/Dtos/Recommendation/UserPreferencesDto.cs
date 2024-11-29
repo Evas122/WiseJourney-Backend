@@ -1,7 +1,7 @@
 ﻿namespace WiseJourneyBackend.Application.Dtos.Recommendation;
 
 public record UserPreferencesDto(string DestinationType, decimal Budget,
-    int DurationInDays, string TravelStyle, string ClimatPreference,
-    string AccommodationType, string TransportyType, int NumberOfPersons,
-    string Cuisine, int MaxDistanceKm, List<string> Activities,
-    List<string> SpecificLocations, string UserLocation);
+    int DurationInDays, List<string> TravelStyles, string ClimatPreference,
+    string AccommodationType, List<string> TransportTypes,
+    List<string> Cuisines, int MaxDistanceKm, List<string> Activities,
+    List<string> SpecificLocations, string DeparturePoint);
