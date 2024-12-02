@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Microsoft.SemanticKernel;
 using Newtonsoft.Json;
 using WiseJourneyBackend.Application.Cache;
 using WiseJourneyBackend.Application.Commands.SendPreferenceMessage;
@@ -17,13 +18,15 @@ public class RecommendationService : IRecommendationService
     private readonly ICacheService _cacheService;
     private readonly IHttpContextAccessor _contextAccessor;
     private readonly IConfiguration _configuration;
+    private readonly IGooglePlacesService _googlePlacesService;
 
-    public RecommendationService(IKernelService kernelService,ICacheService cacheService, IHttpContextAccessor contextAccessor, IConfiguration configuration)
+    public RecommendationService(IKernelService kernelService,ICacheService cacheService, IHttpContextAccessor contextAccessor, IConfiguration configuration, IGooglePlacesService googlePlacesService)
     {
         _kernelService = kernelService;
         _cacheService = cacheService;
         _contextAccessor = contextAccessor;
         _configuration = configuration;
+        _googlePlacesService = googlePlacesService;
     }
 
     public async Task SendUserPreferencesMessageAsync(SendPreferenceMessageCommand command)
@@ -54,8 +57,9 @@ public class RecommendationService : IRecommendationService
         return Task.FromResult(chatHistoryCacheData);
     }
 
-    public async Task<UserPreferencesDto> GenerateUserPreferencesAsync()
+    public async Task<List<PlaceDto>> GetRecommendedPlacesAsync()
     {
+        //TODO in future for better security make this function semantic and llm will be calling in prompt after meeting the conditions
         var prompts = _kernelService.ImportAllPlugins();
         var chatHistoryCacheData = GetOrInitializeChatHistory();
 
@@ -69,12 +73,25 @@ public class RecommendationService : IRecommendationService
 
         var userPreferencesDto = JsonConvert.DeserializeObject<UserPreferencesDto>(validJson) ?? throw new BadRequestException("A problem has occured");
 
-        return userPreferencesDto;
+        var places = await GenerateRecommendedPlacesAsync(userPreferencesDto, prompts);
+
+        return places;
     }
 
-    public async Task<PlaceDto> GetRecommendedPlacesAsync(UserPreferencesDto userPreferencesDto)
+    private async Task <List<PlaceDto>> GenerateRecommendedPlacesAsync(UserPreferencesDto userPreferencesDto, KernelPlugin prompts)
     {
-        throw new NotImplementedException();
+
+        var userPreferencesJson = JsonConvert.SerializeObject(userPreferencesDto);
+
+        var googlePlacesPreferencesDtoJson = await _kernelService.InvokeAsync(prompts["MappingPreferencesToGooglePlaces"], new() { { "user_preferences", userPreferencesJson } });
+
+        var validJson = ValidJson(googlePlacesPreferencesDtoJson);
+
+        var googlePlacesPreferencesDto = JsonConvert.DeserializeObject<GooglePlacesPreferencesDto>(validJson) ?? throw new BadRequestException("A problem has occured");
+
+        var places = await _googlePlacesService.GetNearbyPlacesAsync(googlePlacesPreferencesDto);
+
+        return places;
     }
 
     private ChatHistoryCacheData GetOrInitializeChatHistory(string defaultAssistantMessage = "", int maxItems = 13)
@@ -109,6 +126,6 @@ public class RecommendationService : IRecommendationService
         var jsonStartIndex = json.IndexOf('{');
         var jsonEndIndex = json.LastIndexOf('}') + 1;
 
-        return json.Substring(jsonStartIndex, jsonEndIndex - jsonStartIndex);
+        return json[jsonStartIndex..jsonEndIndex];
     }
 }

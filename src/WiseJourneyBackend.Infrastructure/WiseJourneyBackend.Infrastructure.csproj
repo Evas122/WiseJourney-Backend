@@ -30,6 +30,7 @@
 
   <ItemGroup>
     <Folder Include="Prompts\GetUserPreferences\" />
+    <Folder Include="Prompts\MappingPreferencesToGooglePlaces\" />
     <Folder Include="Prompts\UserPreferencesChat\" />
   </ItemGroup>
 
@@ -38,6 +39,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Prompts\GetUserPreferences\skprompt.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Prompts\MappingPreferencesToGooglePlaces\config.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Prompts\MappingPreferencesToGooglePlaces\skprompt.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Prompts\UserPreferencesChat\config.json">
