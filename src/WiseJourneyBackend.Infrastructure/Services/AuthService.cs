@@ -120,7 +120,7 @@ public class AuthService : IAuthService
         var userId = _contextAccessor.GetUserId();
         var refreshTokens = await _refreshTokenRepository.GetAllActiveTokensAsync(userId);
         //TODO clear cookies instead tokens or something else
-        await _refreshTokenRepository.RemoveUserRefreshTokens(refreshTokens);
+        await _refreshTokenRepository.RemoveUserRefreshTokensAsync(refreshTokens);
     }
 
     private async Task<string> RetrieveRefreshTokenAsync(Guid userId)

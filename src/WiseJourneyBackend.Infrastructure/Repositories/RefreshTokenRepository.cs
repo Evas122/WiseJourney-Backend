@@ -46,7 +46,7 @@ public class RefreshTokenRepository : IRefreshTokenRepository
             .ToListAsync();
     }
 
-    public async Task RemoveUserRefreshTokens(List<RefreshToken> refreshTokens)
+    public async Task RemoveUserRefreshTokensAsync(List<RefreshToken> refreshTokens)
     {
         _dbContext.RefreshTokens.RemoveRange(refreshTokens);
         await _dbContext.SaveChangesAsync();

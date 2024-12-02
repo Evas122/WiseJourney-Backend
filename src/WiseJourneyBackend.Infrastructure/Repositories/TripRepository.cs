@@ -1,10 +1,58 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
+using WiseJourneyBackend.Domain.Entities.Trips;
+using WiseJourneyBackend.Infrastructure.Data;
 
 namespace WiseJourneyBackend.Infrastructure.Repositories;
-internal class TripRepository
+
+public class TripRepository
 {
+    private readonly AppDbContext _dbContext;
+
+    public TripRepository(AppDbContext dbContext)
+    {
+        _dbContext = dbContext;
+    }
+
+    public async Task AddTripAsync(Trip trip)
+    {
+        _dbContext.Add(trip);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task UpdateTripAsync(Trip trip)
+    {
+        _dbContext.Update(trip);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task DeleteTripAsync(Trip trip)
+    {
+        _dbContext.Trips.Remove(trip);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<(IEnumerable<Trip> Items, int TotalItems)> GetUserTripsAsync(Guid userId, int pageNumber, int pageSize)
+    {
+        var query = _dbContext.Trips
+        .Where(t => t.UserId == userId)
+        .OrderByDescending(t => t.CreatedAtUtc);
+
+        var totalItems = await query.CountAsync();
+        var items = await query
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (items, totalItems);
+    }
+
+    public async Task<Trip?> GetTripDetailsByIdAsync(Guid tripId, Guid userId)
+    {
+        return await _dbContext.Trips
+            .AsNoTracking()
+            .Include(t => t.TripDays)
+                .ThenInclude(td => td.TripPlaces)
+                    .ThenInclude(tp => tp.Place)
+            .FirstOrDefaultAsync(x => x.Id == tripId && x.UserId == userId);
+    }
 }
