@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WiseJourneyBackend.Application.Interfaces;
 using WiseJourneyBackend.Infrastructure.Data;
+using WiseJourneyBackend.Infrastructure.Services;
 
 namespace WiseJourneyBackend.Infrastructure.Extensions;
 
@@ -23,6 +25,9 @@ public static class ServiceCollectionExtension
         services.AddRepositories();
 
         services.AddGoogleExtension(configuration);
+        services.AddGroqAiKernelExtension(configuration);
+        services.AddCacheExtension();
+        services.AddScoped<IRecommendationService, RecommendationService>();
 
         return services;
     }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WiseJourneyBackend.Application.Dtos.Recommendation;
 using WiseJourneyBackend.Application.Interfaces;
 using WiseJourneyBackend.Infrastructure.Services;
 
@@ -14,9 +15,9 @@ public class PlacesController : BaseController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetPlaces(string place)
+    public async Task<IActionResult> GetPlaces(GooglePlacesPreferencesDto googlePlacesPreferencesDto)
     {
-        var result = await _placesService.GetNearbyPlaces(place);
+        var result = await _placesService.GetNearbyPlacesAsync(googlePlacesPreferencesDto);
 
         return Ok(result);
     }

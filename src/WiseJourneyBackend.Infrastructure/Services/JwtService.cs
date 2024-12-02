@@ -7,7 +7,6 @@ using WiseJourneyBackend.Application.Interfaces;
 using WiseJourneyBackend.Domain.Entities;
 using WiseJourneyBackend.Domain.Enums;
 using WiseJourneyBackend.Domain.Exceptions;
-using WiseJourneyBackend.Infrastructure.Data;
 using WiseJourneyBackend.Infrastructure.Interfaces;
 
 namespace WiseJourneyBackend.Infrastructure.Services;

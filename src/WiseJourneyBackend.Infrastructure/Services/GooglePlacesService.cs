@@ -3,6 +3,7 @@ using Google.Maps.AddressValidation.V1;
 using Google.Maps.Places.V1;
 using Google.Type;
 using WiseJourneyBackend.Application.Dtos.Places;
+using WiseJourneyBackend.Application.Dtos.Recommendation;
 using WiseJourneyBackend.Application.Interfaces;
 using WiseJourneyBackend.Domain.Enums;
 using WiseJourneyBackend.Domain.Exceptions;
@@ -17,23 +18,24 @@ public class GooglePlacesService : IGooglePlacesService
     public GooglePlacesService(PlacesClient placesClient, AddressValidationClient addressValidationClient, IDateTimeProvider dateTimeProvider)
     {
         _placesClient = placesClient;
-        _addressValidationClient = addressValidationClient;
+        _addressValidationClient = addressValidationClient; 
         _dateTimeProvider = dateTimeProvider;
     }
 
-    public async Task<List<PlaceDto>> GetNearbyPlaces(string address)
+    public async Task<List<PlaceDto>> GetNearbyPlacesAsync(GooglePlacesPreferencesDto googlePlacesPreferencesDto)
     {
         var addressValidationRequest = new ValidateAddressRequest
         {
             Address = new PostalAddress
             {
-                AddressLines = { address }
+                AddressLines = { googlePlacesPreferencesDto.Location }
             }
         };
 
         var validationResponse = await _addressValidationClient.ValidateAddressAsync(addressValidationRequest);
 
-        var geocode = (validationResponse.Result?.Geocode?.Location) ?? throw new BadRequestException("invalid geocode location");
+        var geocode = (validationResponse.Result?.Geocode?.Location) ?? throw new BadRequestException("Invalid geocode location");
+
         var nearbyRequest = new SearchNearbyRequest
         {
             MaxResultCount = 10,
@@ -46,20 +48,49 @@ public class GooglePlacesService : IGooglePlacesService
                         Latitude = geocode.Latitude,
                         Longitude = geocode.Longitude
                     },
-                    Radius = 50000
+                    Radius = googlePlacesPreferencesDto.Radius
                 }
             },
         };
 
-        nearbyRequest.IncludedTypes.AddRange(["restaurant", "cafe", "bar", "art_gallery", "museum"]);
-        //TODO in future add more type to create trip plan
+        if (googlePlacesPreferencesDto.PlaceTypes != null && googlePlacesPreferencesDto.PlaceTypes.Any())
+        {
+            nearbyRequest.IncludedTypes.AddRange(googlePlacesPreferencesDto.PlaceTypes);
+        }
 
         var callSettings = CallSettings.FromHeader("X-Goog-FieldMask",
                 "places.id,places.displayName,places.types,places.formattedAddress,places.shortFormattedAddress,places.rating,places.userRatingCount,places.priceLevel,places.location,places.currentOpeningHours.openNow,places.regularOpeningHours.periods");
 
         var response = await _placesClient.SearchNearbyAsync(nearbyRequest, callSettings);
 
-        return MapToPlaceDtoList(response);
+        var placeDtos = MapToPlaceDtoList(response);
+
+        return placeDtos;
+    }
+
+    private List<PlaceDto> FilterResultsByPreferences(List<PlaceDto> placeDtos, GooglePlacesPreferencesDto preferences)
+    {
+        //TODO filter is not working property because many places have 0 price level so better filter in hotel or something else 
+        var filteredResults = placeDtos;
+
+        if (preferences.PriceLevel >= 0)
+        {
+            filteredResults = filteredResults.Where(p => p.PriceLevel == preferences.PriceLevel).ToList();
+        }
+
+        if (!string.IsNullOrEmpty(preferences.Keyword))
+        {
+            filteredResults = filteredResults.Where(p => p.Name.Contains(preferences.Keyword, StringComparison.OrdinalIgnoreCase) ||
+                                                         p.FullAddress.Contains(preferences.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
+        }
+
+        if (preferences.Queries != null && preferences.Queries.Any())
+        {
+            filteredResults = filteredResults.Where(p => preferences.Queries.Any(query => p.Name.Contains(query, StringComparison.OrdinalIgnoreCase) ||
+                                                                                            p.FullAddress.Contains(query, StringComparison.OrdinalIgnoreCase))).ToList();
+        }
+
+        return filteredResults;
     }
 
     private List<PlaceDto> MapToPlaceDtoList(SearchNearbyResponse response)

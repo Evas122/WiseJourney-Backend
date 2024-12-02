@@ -25,6 +25,34 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.SemanticKernel" Version="1.29.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Prompts\GetUserPreferences\" />
+    <Folder Include="Prompts\MappingPreferencesToGooglePlaces\" />
+    <Folder Include="Prompts\UserPreferencesChat\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Prompts\GetUserPreferences\config.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Prompts\GetUserPreferences\skprompt.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Prompts\MappingPreferencesToGooglePlaces\config.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Prompts\MappingPreferencesToGooglePlaces\skprompt.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Prompts\UserPreferencesChat\config.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Prompts\UserPreferencesChat\skprompt.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
