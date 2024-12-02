@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using WiseJourneyBackend.Domain.Entities;
+using WiseJourneyBackend.Domain.Entities.Auth;
 
-namespace WiseJourneyBackend.Infrastructure.Data.Configurations;
+namespace WiseJourneyBackend.Infrastructure.Data.Configurations.Auth;
 
 internal sealed class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken>
 {

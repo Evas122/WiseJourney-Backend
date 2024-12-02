@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using WiseJourneyBackend.Domain.Entities;
+using WiseJourneyBackend.Domain.Entities.Places;
 
-namespace WiseJourneyBackend.Infrastructure.Data.Configurations;
+namespace WiseJourneyBackend.Infrastructure.Data.Configurations.Places;
 
 internal sealed class OpeningHourConfiguration : IEntityTypeConfiguration<OpeningHour>
 {
@@ -12,11 +12,11 @@ internal sealed class OpeningHourConfiguration : IEntityTypeConfiguration<Openin
 
         builder.HasOne<Place>()
             .WithOne()
-            .HasForeignKey<OpeningHour>(oh => oh.PlaceId) 
-            .OnDelete(DeleteBehavior.Cascade); 
+            .HasForeignKey<OpeningHour>(oh => oh.PlaceId)
+            .OnDelete(DeleteBehavior.Cascade);
 
-        builder.HasMany(oh => oh.WeeklyHours) 
-            .WithOne() 
+        builder.HasMany(oh => oh.WeeklyHours)
+            .WithOne()
             .HasForeignKey(wh => wh.OpeningHourId)
             .OnDelete(DeleteBehavior.Cascade);
     }

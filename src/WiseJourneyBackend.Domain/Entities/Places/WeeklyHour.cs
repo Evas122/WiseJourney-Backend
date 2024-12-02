@@ -1,7 +1,7 @@
 ﻿using WiseJourneyBackend.Domain.Common;
 using WiseJourneyBackend.Domain.Enums;
 
-namespace WiseJourneyBackend.Domain.Entities;
+namespace WiseJourneyBackend.Domain.Entities.Places;
 
 public class WeeklyHour : BaseEntity
 {

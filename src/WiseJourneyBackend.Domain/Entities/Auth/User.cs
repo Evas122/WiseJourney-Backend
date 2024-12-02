@@ -1,6 +1,7 @@
 ﻿using WiseJourneyBackend.Domain.Common;
+using WiseJourneyBackend.Domain.Entities.Trips;
 
-namespace WiseJourneyBackend.Domain.Entities;
+namespace WiseJourneyBackend.Domain.Entities.Auth;
 
 public class User : BaseEntity
 {
@@ -9,4 +10,5 @@ public class User : BaseEntity
     public bool EmailConfirmed { get; set; } = false;
     public string PasswordHash { get; set; } = null!;
     public ICollection<RefreshToken> RefreshTokens { get; set; } = [];
+    public ICollection<Trip> Trips { get; set; } = [];
 }

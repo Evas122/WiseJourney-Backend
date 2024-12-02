@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using WiseJourneyBackend.Domain.Entities;
+using WiseJourneyBackend.Domain.Entities.Places;
 
-namespace WiseJourneyBackend.Infrastructure.Data.Configurations;
+namespace WiseJourneyBackend.Infrastructure.Data.Configurations.Places;
 
 internal sealed class PlaceTypeConfiguration : IEntityTypeConfiguration<PlaceType>
 {

@@ -1,4 +1,4 @@
-﻿namespace WiseJourneyBackend.Domain.Entities;
+﻿namespace WiseJourneyBackend.Domain.Entities.Auth;
 
 public sealed class RefreshToken
 {

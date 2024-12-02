@@ -1,4 +1,4 @@
-﻿using WiseJourneyBackend.Domain.Entities;
+﻿using WiseJourneyBackend.Domain.Entities.Auth;
 
 namespace WiseJourneyBackend.Domain.Repositories;
 

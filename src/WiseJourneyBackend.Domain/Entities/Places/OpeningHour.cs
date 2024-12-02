@@ -1,6 +1,6 @@
 ﻿using WiseJourneyBackend.Domain.Common;
 
-namespace WiseJourneyBackend.Domain.Entities;
+namespace WiseJourneyBackend.Domain.Entities.Places;
 
 public class OpeningHour : BaseEntity
 {

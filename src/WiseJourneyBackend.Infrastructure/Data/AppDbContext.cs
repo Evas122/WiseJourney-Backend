@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WiseJourneyBackend.Domain.Entities;
+using WiseJourneyBackend.Domain.Entities.Auth;
+using WiseJourneyBackend.Domain.Entities.Places;
+using WiseJourneyBackend.Domain.Entities.Trips;
 namespace WiseJourneyBackend.Infrastructure.Data;
 
 public class AppDbContext : DbContext
@@ -11,7 +13,9 @@ public class AppDbContext : DbContext
     public DbSet<Place> Places { get; set; }
     public DbSet<PlaceType> PlacesType { get; set; }
     public DbSet<WeeklyHour> WeeklyHours { get; set; }
-
+    public DbSet<Trip> Trips { get; set; }
+    public DbSet<TripDay> TripDays { get; set; }
+    public DbSet<TripPlace> TripPlaces { get; set; }
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
