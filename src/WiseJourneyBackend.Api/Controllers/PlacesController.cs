@@ -1,23 +1,31 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using WiseJourneyBackend.Application.Dtos.Recommendation;
-using WiseJourneyBackend.Application.Interfaces;
-using WiseJourneyBackend.Infrastructure.Services;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using WiseJourneyBackend.Application.Commands.SavePlaces;
+using WiseJourneyBackend.Application.Queries.GetRecommendedPlaces;
 
 namespace WiseJourneyBackend.Api.Controllers;
 
 public class PlacesController : BaseController
 {
-    private readonly IGooglePlacesService _placesService;
+    private readonly IMediator _mediator;
 
-    public PlacesController(GooglePlacesService placesService)
+    public PlacesController(IMediator mediator)
     {
-        _placesService = placesService;
+        _mediator = mediator;
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetPlaces(GooglePlacesPreferencesDto googlePlacesPreferencesDto)
+    [HttpGet("get-recommended-places")]
+    public async Task<IActionResult> GetPlaces(GetRecommendedPlacesQuery query)
     {
-        var result = await _placesService.GetNearbyPlacesAsync(googlePlacesPreferencesDto);
+        var result = await _mediator.Send(query);
+
+        return Ok(result);
+    }
+
+    [HttpPost("save-places")]
+    public async Task<IActionResult> SavePlaces(SavePlacesCommand command)
+    {
+        var result = await _mediator.Send(command);
 
         return Ok(result);
     }

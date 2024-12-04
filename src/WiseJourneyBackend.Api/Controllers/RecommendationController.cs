@@ -32,12 +32,4 @@ public class RecommendationController : BaseController
 
         return Ok(result);
     }
-
-    [HttpGet("get-recommended-places")]
-    public async Task<IActionResult> GetRecommendedPlacesForUserAsync()
-    {
-        var result = await _mediator.Send(new GetRecommendedPlacesQuery());
-
-        return Ok(result);
-    }
 }

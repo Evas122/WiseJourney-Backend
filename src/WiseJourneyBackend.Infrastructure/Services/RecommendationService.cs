@@ -78,7 +78,7 @@ public class RecommendationService : IRecommendationService
         return places;
     }
 
-    private async Task <List<PlaceDto>> GenerateRecommendedPlacesAsync(UserPreferencesDto userPreferencesDto, KernelPlugin prompts)
+    private async Task<List<PlaceDto>> GenerateRecommendedPlacesAsync(UserPreferencesDto userPreferencesDto, KernelPlugin prompts)
     {
 
         var userPreferencesJson = JsonConvert.SerializeObject(userPreferencesDto);

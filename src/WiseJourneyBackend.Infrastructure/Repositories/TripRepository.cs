@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WiseJourneyBackend.Domain.Entities.Trips;
+using WiseJourneyBackend.Domain.Repositories;
 using WiseJourneyBackend.Infrastructure.Data;
 
 namespace WiseJourneyBackend.Infrastructure.Repositories;
 
-public class TripRepository
+public class TripRepository : ITripRepository
 {
     private readonly AppDbContext _dbContext;
 
@@ -49,10 +50,20 @@ public class TripRepository
     public async Task<Trip?> GetTripDetailsByIdAsync(Guid tripId, Guid userId)
     {
         return await _dbContext.Trips
-            .AsNoTracking()
-            .Include(t => t.TripDays)
-                .ThenInclude(td => td.TripPlaces)
-                    .ThenInclude(tp => tp.Place)
-            .FirstOrDefaultAsync(x => x.Id == tripId && x.UserId == userId);
+        .AsNoTracking()
+        .Include(t => t.TripDays)
+            .ThenInclude(td => td.TripPlaces)
+                .ThenInclude(tp => tp.Place)
+                    .ThenInclude(p => p.Geometry)
+        .Include(t => t.TripDays)
+            .ThenInclude(td => td.TripPlaces)
+                .ThenInclude(tp => tp.Place)
+                    .ThenInclude(p => p.OpeningHour)
+                        .ThenInclude(oh => oh.WeeklyHours)
+        .Include(t => t.TripDays)
+            .ThenInclude(td => td.TripPlaces)
+                .ThenInclude(tp => tp.Place)
+                    .ThenInclude(p => p.PlaceTypes)
+        .FirstOrDefaultAsync(x => x.Id == tripId && x.UserId == userId);
     }
 }

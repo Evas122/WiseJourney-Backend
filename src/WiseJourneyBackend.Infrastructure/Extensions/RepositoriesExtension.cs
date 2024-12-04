@@ -10,5 +10,7 @@ public static class RepositoriesExtension
     {
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+        services.AddScoped<IPlaceRepository, PlaceRepository>();
+        services.AddScoped<ITripRepository, TripRepository>();
     }
 }
