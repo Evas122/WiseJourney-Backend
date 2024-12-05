@@ -7,8 +7,7 @@ public record CreateTripCommand(
     string Name,
     DateTime StartDateUtc,
     DateTime EndDateUtc,
-    List<CreateTripDay> TripDays,
-    Guid UserId) : ICommand<Unit>;
+    List<CreateTripDay> TripDays) : ICommand<Unit>;
 
 public record CreateTripDay(
     DateTime DateUtc,

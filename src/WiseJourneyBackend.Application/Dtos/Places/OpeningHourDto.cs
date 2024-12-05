@@ -3,4 +3,4 @@
 public record OpeningHourDto(
     string PlaceId,
     bool OpenNow,
-    List<WeeklyHourDto> WeeklyHourDtos);
+    List<WeeklyHourDto> WeeklyHours);

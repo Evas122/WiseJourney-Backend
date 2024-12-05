@@ -15,9 +15,9 @@ public class PlacesController : BaseController
     }
 
     [HttpGet("get-recommended-places")]
-    public async Task<IActionResult> GetPlaces(GetRecommendedPlacesQuery query)
+    public async Task<IActionResult> GetPlaces()
     {
-        var result = await _mediator.Send(query);
+        var result = await _mediator.Send(new GetRecommendedPlacesQuery());
 
         return Ok(result);
     }

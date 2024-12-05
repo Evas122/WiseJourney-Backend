@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WiseJourneyBackend.Domain.Entities.Trips;
+using WiseJourneyBackend.Domain.Exceptions;
 using WiseJourneyBackend.Domain.Repositories;
 using WiseJourneyBackend.Infrastructure.Data;
 
@@ -16,6 +17,14 @@ public class TripRepository : ITripRepository
 
     public async Task AddTripAsync(Trip trip)
     {
+        foreach (var tripDay in trip.TripDays)
+        {
+            foreach (var tripPlace in tripDay.TripPlaces)
+            {
+                var existingPlace = await _dbContext.Places.FirstOrDefaultAsync(p => p.Id == tripPlace.PlaceId) ?? throw new NotFoundException(nameof(tripPlace), tripPlace.PlaceId);
+                tripPlace.Place = existingPlace;
+            }
+        }
         _dbContext.Add(trip);
         await _dbContext.SaveChangesAsync();
     }

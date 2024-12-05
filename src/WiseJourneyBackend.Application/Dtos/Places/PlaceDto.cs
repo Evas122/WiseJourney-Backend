@@ -8,6 +8,6 @@ public record PlaceDto(
     double Rating,
     int UserRatingTotal,
     int PriceLevel,
-    GeometryDto GeometryDto,
-    OpeningHourDto OpeningHourDto,
-    List<PlaceTypeDto> PlaceTypeDtos);
+    GeometryDto Geometry,
+    OpeningHourDto OpeningHour,
+    List<PlaceTypeDto> PlaceTypes);

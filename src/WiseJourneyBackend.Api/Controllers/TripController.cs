@@ -24,16 +24,17 @@ public class TripController : BaseController
     }
 
     [HttpGet("trips")]
-    public async Task<IActionResult> GetTrips(GetPagedTripsQuery query)
+    public async Task<IActionResult> GetTrips([FromQuery] GetPagedTripsQuery query)
     {
         var result = await _mediator.Send(query);
 
         return Ok(result);
     }
 
-    [HttpGet("trips-details")]
-    public async Task<IActionResult> GetTripDetails(GetTripDetailsQuery query)
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetTripDetails([FromRoute] Guid id)
     {
+        var query = new GetTripDetailsQuery(id);
         var result = await _mediator.Send(query);
         return Ok(result);
     }
