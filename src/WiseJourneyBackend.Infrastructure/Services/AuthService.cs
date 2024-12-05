@@ -7,6 +7,7 @@ using WiseJourneyBackend.Application.Dtos.Auth;
 using WiseJourneyBackend.Application.Extensions;
 using WiseJourneyBackend.Application.Interfaces;
 using WiseJourneyBackend.Domain.Entities;
+using WiseJourneyBackend.Domain.Entities.Auth;
 using WiseJourneyBackend.Domain.Enums;
 using WiseJourneyBackend.Domain.Exceptions;
 using WiseJourneyBackend.Domain.Repositories;
@@ -119,7 +120,7 @@ public class AuthService : IAuthService
         var userId = _contextAccessor.GetUserId();
         var refreshTokens = await _refreshTokenRepository.GetAllActiveTokensAsync(userId);
         //TODO clear cookies instead tokens or something else
-        await _refreshTokenRepository.RemoveUserRefreshTokens(refreshTokens);
+        await _refreshTokenRepository.RemoveUserRefreshTokensAsync(refreshTokens);
     }
 
     private async Task<string> RetrieveRefreshTokenAsync(Guid userId)

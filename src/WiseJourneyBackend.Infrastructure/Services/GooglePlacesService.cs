@@ -103,22 +103,22 @@ public class GooglePlacesService : IGooglePlacesService
             Rating: p.Rating,
             UserRatingTotal: p.UserRatingCount,
             PriceLevel: Convert.ToInt32(p.PriceLevel),
-            GeometryDto: new GeometryDto(
+            Geometry: new GeometryDto(
                 PlaceId: p.Id,
                 Latitude: p.Location.Latitude,
                 Longitude: p.Location.Longitude
             ),
-            OpeningHourDto: new OpeningHourDto(
+            OpeningHour: new OpeningHourDto(
                 PlaceId: p.Id,
                 OpenNow: p.CurrentOpeningHours?.OpenNow ?? false,
-                WeeklyHourDtos: p.RegularOpeningHours?.Periods.Select(period => new WeeklyHourDto(
+                WeeklyHours: p.RegularOpeningHours?.Periods.Select(period => new WeeklyHourDto(
                     Day: (Day)period.Open.Day,
                     OpenTime: _dateTimeProvider.UtcNow.AddHours(period.Open.Hour).AddMinutes(period.Open.Minute),
                     CloseTime: _dateTimeProvider.UtcNow.AddHours(period.Close?.Hour ?? 0).AddMinutes(period.Close?.Minute ?? 0),
                     OpeningHourId: Guid.NewGuid()
                 )).ToList() ?? new List<WeeklyHourDto>()
             ),
-            PlaceTypeDtos: p.Types_.Select(type => new PlaceTypeDto(
+            PlaceTypes: p.Types_.Select(type => new PlaceTypeDto(
                 PlaceId: p.Id,
                 TypeName: type
             )).ToList()

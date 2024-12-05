@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WiseJourneyBackend.Application.Interfaces;
-using WiseJourneyBackend.Domain.Entities;
+using WiseJourneyBackend.Domain.Entities.Auth;
 using WiseJourneyBackend.Infrastructure.Services;
 
 namespace WiseJourneyBackend.Infrastructure.Extensions;

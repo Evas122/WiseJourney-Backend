@@ -1,6 +1,6 @@
 ﻿using FluentEmail.Core;
 using Microsoft.Extensions.Configuration;
-using WiseJourneyBackend.Domain.Entities;
+using WiseJourneyBackend.Domain.Entities.Auth;
 using WiseJourneyBackend.Infrastructure.Interfaces;
 
 namespace WiseJourneyBackend.Infrastructure.Services;

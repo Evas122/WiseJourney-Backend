@@ -4,7 +4,6 @@ using WiseJourneyBackend.Application.Interfaces.Messaging;
 
 namespace WiseJourneyBackend.Application.Queries.ChatHistory;
 
-public record GetChatHistoryQuery() :IQuery<ChatHistoryCacheData>;
 public class GetChatHistoryHandler : IQueryHandler<GetChatHistoryQuery, ChatHistoryCacheData>
 {
     private readonly IRecommendationService _recommendationService;

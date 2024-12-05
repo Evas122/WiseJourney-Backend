@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using WiseJourneyBackend.Domain.Entities;
+using WiseJourneyBackend.Domain.Entities.Auth;
 using WiseJourneyBackend.Domain.Enums;
 
 namespace WiseJourneyBackend.Infrastructure.Interfaces;

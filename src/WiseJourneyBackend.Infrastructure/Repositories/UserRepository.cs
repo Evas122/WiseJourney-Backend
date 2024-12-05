@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WiseJourneyBackend.Domain.Entities;
+using WiseJourneyBackend.Domain.Entities.Auth;
 using WiseJourneyBackend.Domain.Repositories;
 using WiseJourneyBackend.Infrastructure.Data;
 

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using WiseJourneyBackend.Application.Interfaces;
-using WiseJourneyBackend.Domain.Entities;
+using WiseJourneyBackend.Domain.Entities.Auth;
 using WiseJourneyBackend.Domain.Repositories;
 using WiseJourneyBackend.Infrastructure.Data;
 
@@ -46,7 +46,7 @@ public class RefreshTokenRepository : IRefreshTokenRepository
             .ToListAsync();
     }
 
-    public async Task RemoveUserRefreshTokens(List<RefreshToken> refreshTokens)
+    public async Task RemoveUserRefreshTokensAsync(List<RefreshToken> refreshTokens)
     {
         _dbContext.RefreshTokens.RemoveRange(refreshTokens);
         await _dbContext.SaveChangesAsync();
