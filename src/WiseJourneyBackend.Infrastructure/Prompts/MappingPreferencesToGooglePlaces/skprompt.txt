@@ -16,10 +16,10 @@ Generate a JSON object for GooglePlacesPreferencesDto based on the user's prefer
 
 2. `Radius`: Always set to 50,000 meters (50 km).
 
-3. `PlaceTypes`: Use only the following Google Places API types based on the user's preferences:
+3. `PlaceTypes`: Use only the following Google Places API table A types based on the user's preferences:
    - **Sightseeing / Culture**: `museum`, `art_gallery`, `cultural_landmark`, `monument`, `historical_place`.
    - **Beach / Relaxation**: `beach`, `spa`, `resort_hotel`.
-   - **Hiking / Nature**: `park`, `national_park`, `hiking_area`, `botanical_garden`, `natural_feature`.
+   - **Hiking / Nature**: `park`, `national_park`, `hiking_area`, `botanical_garden`.
    - **Entertainment / Recreation**: `amusement_park`, `aquarium`, `zoo`, `water_park`, `stadium`.
    - **Accommodation**: `hotel`, `guest_house`, `bed_and_breakfast`, `campground`.
    - **Sports / Activities**: `fitness_center`, `gym`, `ski_resort`, `ice_skating_rink`, `swimming_pool`.
