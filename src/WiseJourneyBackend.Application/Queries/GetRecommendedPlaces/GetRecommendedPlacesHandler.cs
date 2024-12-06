@@ -15,8 +15,8 @@ public class GetRecommendedPlacesHandler : IQueryHandler<GetRecommendedPlacesQue
 
     public async Task<List<PlaceDto>> Handle(GetRecommendedPlacesQuery query, CancellationToken cancellationToken)
     {
-        var userPreferences = await _recommendationService.GetRecommendedPlacesAsync();
+        var recommendedPlaces = await _recommendationService.GetRecommendedPlacesAsync();
 
-        return userPreferences;
+        return recommendedPlaces;
     }
 }
