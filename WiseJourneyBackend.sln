@@ -16,6 +16,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elementy rozwiązania", "El
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WiseJourneyBackend.Application.Tests", "tests\WiseJourneyBackend.Application.Tests\WiseJourneyBackend.Application.Tests.csproj", "{B48BD6EC-EBEC-4573-9190-E1CA1670C1B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WiseJourneyBackend.Domain.Tests", "tests\WiseJourneyBackend.Domain.Tests\WiseJourneyBackend.Domain.Tests.csproj", "{EC9247E0-7286-4AEC-AFA4-6F01DA62205F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WiseJourneyBackend.Infrastructure.Tests", "tests\WiseJourneyBackend.Infrastructure.Tests\WiseJourneyBackend.Infrastructure.Tests.csproj", "{61CE48D6-DF50-417C-95E3-2EEF92C97661}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +44,18 @@ Global
 		{FB856641-A859-4535-982A-B83180353098}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB856641-A859-4535-982A-B83180353098}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB856641-A859-4535-982A-B83180353098}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B48BD6EC-EBEC-4573-9190-E1CA1670C1B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B48BD6EC-EBEC-4573-9190-E1CA1670C1B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B48BD6EC-EBEC-4573-9190-E1CA1670C1B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B48BD6EC-EBEC-4573-9190-E1CA1670C1B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC9247E0-7286-4AEC-AFA4-6F01DA62205F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC9247E0-7286-4AEC-AFA4-6F01DA62205F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC9247E0-7286-4AEC-AFA4-6F01DA62205F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC9247E0-7286-4AEC-AFA4-6F01DA62205F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61CE48D6-DF50-417C-95E3-2EEF92C97661}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61CE48D6-DF50-417C-95E3-2EEF92C97661}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61CE48D6-DF50-417C-95E3-2EEF92C97661}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61CE48D6-DF50-417C-95E3-2EEF92C97661}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
