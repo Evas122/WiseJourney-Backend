@@ -6,7 +6,6 @@ using System.Security.Cryptography;
 using WiseJourneyBackend.Application.Dtos.Auth;
 using WiseJourneyBackend.Application.Extensions;
 using WiseJourneyBackend.Application.Interfaces;
-using WiseJourneyBackend.Domain.Entities;
 using WiseJourneyBackend.Domain.Entities.Auth;
 using WiseJourneyBackend.Domain.Enums;
 using WiseJourneyBackend.Domain.Exceptions;
