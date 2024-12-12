@@ -126,7 +126,6 @@ public class JwtService : IJwtService
         {
             return principal;
         }
-
         return null;
     }
 }
