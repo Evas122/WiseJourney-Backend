@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel;
 using WiseJourneyBackend.Application.Interfaces;
 using WiseJourneyBackend.Domain.Entities.Auth;
 using WiseJourneyBackend.Domain.Repositories;
@@ -36,7 +35,8 @@ public class RefreshTokenRepository : IRefreshTokenRepository
 
     public async Task<RefreshToken?> GetRefreshTokenByTokenAsync(string refreshToken)
     {
-        return await _dbContext.RefreshTokens.FirstOrDefaultAsync(rt => rt.Token == refreshToken);
+        return await _dbContext.RefreshTokens
+            .FirstOrDefaultAsync(rt => rt.Token == refreshToken && rt.ExpiresAtUtc > _dateTimeProvider.UtcNow && !rt.IsRevoked); 
     }
 
     public async Task<List<RefreshToken>> GetAllActiveTokensAsync(Guid userId)
