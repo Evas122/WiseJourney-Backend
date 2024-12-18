@@ -35,7 +35,8 @@ public class RefreshTokenRepository : IRefreshTokenRepository
 
     public async Task<RefreshToken?> GetRefreshTokenByTokenAsync(string refreshToken)
     {
-        return await _dbContext.RefreshTokens.FirstOrDefaultAsync(rt => rt.Token == refreshToken);
+        return await _dbContext.RefreshTokens
+            .FirstOrDefaultAsync(rt => rt.Token == refreshToken && rt.ExpiresAtUtc > _dateTimeProvider.UtcNow && !rt.IsRevoked); 
     }
 
     public async Task<List<RefreshToken>> GetAllActiveTokensAsync(Guid userId)
