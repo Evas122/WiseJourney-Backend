@@ -7,6 +7,7 @@ using WiseJourneyBackend.Application.Interfaces;
 using WiseJourneyBackend.Infrastructure.Services;
 
 namespace WiseJourneyBackend.Infrastructure.Tests.ServicesTests;
+
 public class CacheServiceTests
 {
     private readonly Mock<IMemoryCache> _memoryCacheMock;
@@ -141,5 +142,105 @@ public class CacheServiceTests
         Assert.Equal("Assistant: Assistant message 1", result[1]);
         Assert.Equal("User: User message 2", result[2]);
         Assert.Equal("Assistant: Assistant message 2", result[3]);
+    }
+
+    [Fact]
+    public void GetCache_ShouldReturnNull_WhenCacheDoesNotExist()
+    {
+        // Arrange
+        var cacheKey = "nonExistingKey";
+        var userId = Guid.NewGuid();
+        MockUserContext(userId);
+
+        var cache = new MemoryCache(new MemoryCacheOptions());
+        var cacheService = new CacheService(cache, _contextAccessorMock.Object);
+
+        // Act
+        var result = cacheService.GetCache<string>(cacheKey);
+
+        // Assert
+        Assert.Null(result);
+    }
+
+    [Fact]
+    public void SetCache_ShouldOverrideExistingCacheItem()
+    {
+        // Arrange
+        var cacheKey = "someKey";
+        var initialValue = "initialValue";
+        var newValue = "newValue";
+
+        var userId = Guid.NewGuid();
+        MockUserContext(userId);
+
+        var cache = new MemoryCache(new MemoryCacheOptions());
+        var cacheService = new CacheService(cache, _contextAccessorMock.Object);
+
+        var fullCacheKey = cacheService.GetCacheKey(cacheKey);
+        cache.Set(fullCacheKey, initialValue);
+
+        // Act
+        cacheService.SetCache(cacheKey, newValue);
+
+        // Assert
+        var cachedValue = cache.Get<string>(fullCacheKey);
+        Assert.Equal(newValue, cachedValue);
+    }
+
+    [Fact]
+    public void RemoveCache_ShouldNotThrowException_WhenKeyDoesNotExist()
+    {
+        // Arrange
+        var cacheKey = "nonExistingKey";
+        var userId = Guid.NewGuid();
+        MockUserContext(userId);
+
+        var cache = new MemoryCache(new MemoryCacheOptions());
+        var cacheService = new CacheService(cache, _contextAccessorMock.Object);
+
+        // Act & Assert
+        var exception = Record.Exception(() => cacheService.RemoveCache(cacheKey));
+        Assert.Null(exception);
+    }
+
+    [Fact]
+    public void AddItemToLimitedList_ShouldNotExceedMaxItems()
+    {
+        // Arrange
+        var list = new List<string> { "item1", "item2", "item3" };
+        var newItem = "item4";
+        int maxItems = 3;
+
+        var userId = Guid.NewGuid();
+        MockUserContext(userId);
+
+        // Act
+        _cacheService.AddItemToLimitedList(list, newItem, maxItems);
+
+        // Assert
+        Assert.Equal(maxItems, list.Count);
+        Assert.Contains(newItem, list);
+        Assert.DoesNotContain("item1", list);
+    }
+
+    [Fact]
+    public void InterleaveChatHistoryMessages_ShouldHandleEmptyMessagesLists()
+    {
+        // Arrange
+        var chatHistory = new ChatHistoryCacheData
+        {
+            UserMessages = new List<string> { "User message 1" },
+            AssistantMessages = new List<string>()
+        };
+
+        var userId = Guid.NewGuid();
+        MockUserContext(userId);
+
+        // Act
+        var result = _cacheService.InterleaveChatHistoryMessages(chatHistory);
+
+        // Assert
+        Assert.Single(result);
+        Assert.Equal("User: User message 1", result[0]);
     }
 }

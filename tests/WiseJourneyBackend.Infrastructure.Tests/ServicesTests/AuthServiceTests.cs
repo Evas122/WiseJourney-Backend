@@ -7,12 +7,14 @@ using System.Security.Claims;
 using WiseJourneyBackend.Application.Dtos.Auth;
 using WiseJourneyBackend.Application.Interfaces;
 using WiseJourneyBackend.Domain.Entities.Auth;
+using WiseJourneyBackend.Domain.Enums;
 using WiseJourneyBackend.Domain.Exceptions;
 using WiseJourneyBackend.Domain.Repositories;
 using WiseJourneyBackend.Infrastructure.Interfaces;
 using WiseJourneyBackend.Infrastructure.Services;
 
 namespace WiseJourneyBackend.Infrastructure.Tests.ServicesTests;
+
 public class AuthServiceTests
 {
     private readonly Mock<IUserRepository> _userRepositoryMock;
@@ -175,5 +177,124 @@ public class AuthServiceTests
         Assert.NotNull(result);
         Assert.Equal("access-token", result.AccessToken);
         Assert.Equal("refresh-token", result.RefreshToken);
+    }
+
+    [Fact]
+    public async Task VerifyEmailAsync_InvalidToken_ReturnsFalse()
+    {
+        // Arrange
+        var invalidToken = "invalid-token";
+
+        _jwtServiceMock
+            .Setup(jwt => jwt.ValidateToken(invalidToken))
+            .Returns(default(ClaimsPrincipal));
+
+        // Act
+        var result = await _authService.VerifyEmailAsync(invalidToken);
+
+        // Assert
+        Assert.False(result);
+        _userRepositoryMock.Verify(repo => repo.GetByEmailAsync(It.IsAny<string>()), Times.Never);
+    }
+
+    [Fact]
+    public async Task VerifyEmailAsync_ValidToken_ConfirmsEmail()
+    {
+        // Arrange
+        var validToken = "valid-token";
+        var userEmail = "test@example.com";
+        var user = new User { Email = userEmail, EmailConfirmed = false };
+
+        var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new[]
+        {
+        new Claim(ClaimTypes.Email, userEmail),
+        new Claim("tokenType", TokenType.EmailConfirmation.ToString())
+    }));
+
+        _jwtServiceMock
+            .Setup(jwt => jwt.ValidateToken(validToken))
+            .Returns(claimsPrincipal);
+
+        _userRepositoryMock
+            .Setup(repo => repo.GetByEmailAsync(userEmail))
+            .ReturnsAsync(user);
+
+        // Act
+        var result = await _authService.VerifyEmailAsync(validToken);
+
+        // Assert
+        Assert.True(result);
+        Assert.True(user.EmailConfirmed);
+        _userRepositoryMock.Verify(repo => repo.UpdateAsync(It.IsAny<User>()), Times.Once);
+    }
+
+    [Fact]
+    public async Task ResetPasswordAsync_InvalidToken_ReturnsFalse()
+    {
+        // Arrange
+        var invalidToken = "invalid-token";
+        var newPassword = "NewSecurePassword123!";
+
+        _jwtServiceMock
+            .Setup(jwt => jwt.ValidateToken(invalidToken))
+            .Returns(default(ClaimsPrincipal));
+
+        // Act
+        var result = await _authService.ResetPasswordAsync(invalidToken, newPassword);
+
+        // Assert
+        Assert.False(result);
+        _userRepositoryMock.Verify(repo => repo.GetByEmailAsync(It.IsAny<string>()), Times.Never);
+    }
+
+    [Fact]
+    public async Task SendPasswordResetAsync_UserNotFound_ThrowsNotFoundException()
+    {
+        // Arrange
+        var email = "notfound@example.com";
+
+        _userRepositoryMock
+            .Setup(repo => repo.GetByEmailAsync(email))
+            .ReturnsAsync(default(User));
+
+        // Act & Assert
+        await Assert.ThrowsAsync<NotFoundException>(() => _authService.SendPasswordResetAsync(email));
+    }
+
+    [Fact]
+    public async Task Logout_RemovesAllUserRefreshTokens()
+    {
+        // Arrange
+        var userId = Guid.NewGuid();
+        var activeTokens = new List<RefreshToken>
+    {
+        new RefreshToken { Token = "token1", UserId = userId },
+        new RefreshToken { Token = "token2", UserId = userId }
+    };
+
+        var claims = new List<Claim>
+    {
+        new Claim(ClaimTypes.NameIdentifier, userId.ToString()) 
+    };
+        var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims));
+
+        var mockHttpContext = new DefaultHttpContext
+        {
+            User = claimsPrincipal
+        };
+
+        _contextAccessorMock
+            .Setup(ctx => ctx.HttpContext)
+            .Returns(mockHttpContext);
+
+        _refreshTokenRepositoryMock
+            .Setup(repo => repo.GetAllActiveTokensAsync(userId))
+            .ReturnsAsync(activeTokens);
+
+        // Act
+        await _authService.Logout();
+
+        // Assert
+        _refreshTokenRepositoryMock.Verify(repo => repo.RemoveUserRefreshTokensAsync(activeTokens), Times.Once);
     }
 }

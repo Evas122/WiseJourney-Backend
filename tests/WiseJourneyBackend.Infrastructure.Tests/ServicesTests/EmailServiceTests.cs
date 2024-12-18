@@ -6,6 +6,7 @@ using WiseJourneyBackend.Domain.Entities.Auth;
 using WiseJourneyBackend.Infrastructure.Services;
 
 namespace WiseJourneyBackend.Infrastructure.Tests.ServicesTests;
+
 public class EmailServiceTests
 {
     private readonly Mock<IFluentEmail> _fluentEmailMock;
