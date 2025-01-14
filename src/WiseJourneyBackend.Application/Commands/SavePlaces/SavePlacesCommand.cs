@@ -15,6 +15,7 @@ public record SavePlace(
     double Rating,
     int UserRatingTotal,
     int PriceLevel,
+    string? PhotoId,
     SaveGeometry Geometry,
     SaveOpeningHour OpeningHour,
     List<SavePlaceType> PlaceTypes);

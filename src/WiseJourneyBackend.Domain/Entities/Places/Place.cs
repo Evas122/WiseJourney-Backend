@@ -9,6 +9,7 @@ public class Place
     public double Rating { get; set; }
     public int UserRatingsTotal { get; set; }
     public int PriceLevel { get; set; }
+    public string? PhotoId { get; set; }
     public Geometry Geometry { get; set; } = null!;
     public OpeningHour OpeningHour { get; set; } = null!;
     public ICollection<PlaceType> PlaceTypes { get; set; } = [];

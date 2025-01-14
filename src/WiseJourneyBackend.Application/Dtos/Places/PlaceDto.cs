@@ -8,6 +8,7 @@ public record PlaceDto(
     double Rating,
     int UserRatingTotal,
     int PriceLevel,
+    string? PhotoId,
     GeometryDto Geometry,
     OpeningHourDto OpeningHour,
     List<PlaceTypeDto> PlaceTypes);

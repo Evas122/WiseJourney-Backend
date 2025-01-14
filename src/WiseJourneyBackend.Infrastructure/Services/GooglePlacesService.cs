@@ -2,6 +2,7 @@
 using Google.Maps.AddressValidation.V1;
 using Google.Maps.Places.V1;
 using Google.Type;
+using Microsoft.Extensions.Configuration;
 using WiseJourneyBackend.Application.Dtos.Places;
 using WiseJourneyBackend.Application.Dtos.Recommendation;
 using WiseJourneyBackend.Application.Interfaces;
@@ -14,21 +15,25 @@ public class GooglePlacesService : IGooglePlacesService
     private readonly PlacesClient _placesClient;
     private readonly AddressValidationClient _addressValidationClient;
     private readonly IDateTimeProvider _dateTimeProvider;
+    private readonly IConfiguration _configuration;
+    private readonly HttpClient _httpClient;
 
-    public GooglePlacesService(PlacesClient placesClient, AddressValidationClient addressValidationClient, IDateTimeProvider dateTimeProvider)
+    public GooglePlacesService(PlacesClient placesClient, AddressValidationClient addressValidationClient, IDateTimeProvider dateTimeProvider, IConfiguration configuration, HttpClient httpClient)
     {
         _placesClient = placesClient;
         _addressValidationClient = addressValidationClient; 
         _dateTimeProvider = dateTimeProvider;
+        _configuration = configuration;
+        _httpClient = httpClient;
     }
 
-    public async Task<List<PlaceDto>> GetNearbyPlacesAsync(GooglePlacesPreferencesDto googlePlacesPreferencesDto)
+    public async Task<List<PlaceDto>> GetNearbyPlacesAsync(GooglePlacesQuery googlePlacesQuery)
     {
         var addressValidationRequest = new ValidateAddressRequest
         {
             Address = new PostalAddress
             {
-                AddressLines = { googlePlacesPreferencesDto.Location }
+                AddressLines = { googlePlacesQuery.Location }
             }
         };
 
@@ -48,18 +53,18 @@ public class GooglePlacesService : IGooglePlacesService
                         Latitude = geocode.Latitude,
                         Longitude = geocode.Longitude
                     },
-                    Radius = googlePlacesPreferencesDto.Radius
+                    Radius = googlePlacesQuery.Radius
                 }
             },
         };
 
-        if (googlePlacesPreferencesDto.PlaceTypes != null && googlePlacesPreferencesDto.PlaceTypes.Any())
+        if (googlePlacesQuery.PlaceTypes != null && googlePlacesQuery.PlaceTypes.Any())
         {
-            nearbyRequest.IncludedTypes.AddRange(googlePlacesPreferencesDto.PlaceTypes);
+            nearbyRequest.IncludedTypes.AddRange(googlePlacesQuery.PlaceTypes);
         }
 
         var callSettings = CallSettings.FromHeader("X-Goog-FieldMask",
-                "places.id,places.displayName,places.types,places.formattedAddress,places.shortFormattedAddress,places.rating,places.userRatingCount,places.priceLevel,places.location,places.currentOpeningHours.openNow,places.regularOpeningHours.periods");
+                "places.id,places.displayName,places.types,places.formattedAddress,places.shortFormattedAddress,places.rating,places.userRatingCount,places.priceLevel,places.location,places.currentOpeningHours.openNow,places.regularOpeningHours.periods,places.photos.name");
 
         var response = await _placesClient.SearchNearbyAsync(nearbyRequest, callSettings);
 
@@ -78,6 +83,7 @@ public class GooglePlacesService : IGooglePlacesService
             Rating: p.Rating,
             UserRatingTotal: p.UserRatingCount,
             PriceLevel: Convert.ToInt32(p.PriceLevel),
+            PhotoId: p.Photos.FirstOrDefault()?.Name,
             Geometry: new GeometryDto(
                 PlaceId: p.Id,
                 Latitude: p.Location.Latitude,
@@ -98,5 +104,23 @@ public class GooglePlacesService : IGooglePlacesService
                 TypeName: type
             )).ToList()
         )).ToList();
+    }
+
+    public async Task<byte[]> GetPhotoAsync(string photoId)
+    {
+        if (string.IsNullOrEmpty(photoId))
+        {
+            throw new ArgumentException("Photo reference is required.", nameof(photoId));
+        }
+
+        var apiKey = _configuration["GoogleApi:PlaceApiKey"];
+        var baseUrl = _configuration["GoogleApi:GoogleApiUrl"];
+        var photoUrlSuffix = _configuration["GoogleApi:GoogleApiPhotoSufix"];
+
+        var photoUrl = $"{baseUrl}{photoId}{photoUrlSuffix}{apiKey}";
+
+        var photoBytes = await _httpClient.GetByteArrayAsync(photoUrl);
+
+        return photoBytes;
     }
 }

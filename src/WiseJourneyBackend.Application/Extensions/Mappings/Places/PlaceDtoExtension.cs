@@ -15,6 +15,7 @@ public static class PlaceDtoExtension
             place.Rating,
             place.UserRatingsTotal,
             place.PriceLevel,
+            place.PhotoId,
             new GeometryDto(place.Geometry.PlaceId, place.Geometry.Latitude, place.Geometry.Longitude),
             new OpeningHourDto(
                 place.OpeningHour.PlaceId,

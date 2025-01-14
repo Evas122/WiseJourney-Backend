@@ -20,6 +20,7 @@ public static class SavePlacesCommandExtension
                 Rating = savePlace.Rating,
                 UserRatingsTotal = savePlace.UserRatingTotal,
                 PriceLevel = savePlace.PriceLevel,
+                PhotoId = savePlace.PhotoId,
                 Geometry = new Geometry
                 {
                     PlaceId = savePlace.Id,
