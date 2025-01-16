@@ -3,7 +3,7 @@ using WiseJourneyBackend.Application.Interfaces.Messaging;
 
 namespace WiseJourneyBackend.Application.Queries.GetPhoto;
 
-public class GetPhotoQueryHandler : IQueryHandler<GetPhotoQuery, byte[]>
+public class GetPhotoQueryHandler : IQueryHandler<GetPhotoQuery, string>
 {
     private readonly IGooglePlacesService _googlePlacesService;
 
@@ -12,10 +12,10 @@ public class GetPhotoQueryHandler : IQueryHandler<GetPhotoQuery, byte[]>
         _googlePlacesService = googlePlacesService;
     }
 
-    public async Task<byte[]> Handle(GetPhotoQuery request, CancellationToken cancellationToken)
+    public async Task<string> Handle(GetPhotoQuery request, CancellationToken cancellationToken)
     {
-        var photoBytes = await _googlePlacesService.GetPhotoAsync(request.PhotoId);
+        var photoUrl = await _googlePlacesService.GetPhotoAsync(request.PhotoId);
 
-        return photoBytes;
+        return photoUrl;
     }
 }

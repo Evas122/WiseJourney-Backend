@@ -10,6 +10,9 @@ COPY src/WiseJourneyBackend.Api/WiseJourneyBackend.Api.csproj ./src/WiseJourneyB
 COPY src/WiseJourneyBackend.Application/WiseJourneyBackend.Application.csproj ./src/WiseJourneyBackend.Application/
 COPY src/WiseJourneyBackend.Domain/WiseJourneyBackend.Domain.csproj ./src/WiseJourneyBackend.Domain/
 COPY src/WiseJourneyBackend.Infrastructure/WiseJourneyBackend.Infrastructure.csproj ./src/WiseJourneyBackend.Infrastructure/
+COPY tests/WiseJourneyBackend.Application.Tests/WiseJourneyBackend.Application.Tests.csproj ./tests/WiseJourneyBackend.Application.Tests/
+COPY tests/WiseJourneyBackend.Domain.Tests/WiseJourneyBackend.Domain.Tests.csproj ./tests/WiseJourneyBackend.Domain.Tests/
+COPY tests/WiseJourneyBackend.Infrastructure.Tests/WiseJourneyBackend.Infrastructure.Tests.csproj ./tests/WiseJourneyBackend.Infrastructure.Tests/
 
 RUN dotnet restore
 

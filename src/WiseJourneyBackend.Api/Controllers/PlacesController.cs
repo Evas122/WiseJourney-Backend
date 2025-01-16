@@ -31,8 +31,9 @@ public class PlacesController : BaseController
             return BadRequest("Photo ID is required.");
         }
 
-        var photoBytes = await _mediator.Send(new GetPhotoQuery(photoId));
+        var photoUrl = await _mediator.Send(new GetPhotoQuery(photoId));
+        var decodedUrl = Uri.UnescapeDataString(photoUrl);
 
-        return File(photoBytes, "image/jpeg");
+        return Ok(decodedUrl);
     }
 }

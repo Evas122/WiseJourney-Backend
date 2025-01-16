@@ -2,7 +2,7 @@
 
 namespace WiseJourneyBackend.Application.Queries.GetPhoto;
 
-public class GetPhotoQuery : IQuery<byte[]>
+public class GetPhotoQuery : IQuery<string>
 {
     public string PhotoId { get; set; }
 

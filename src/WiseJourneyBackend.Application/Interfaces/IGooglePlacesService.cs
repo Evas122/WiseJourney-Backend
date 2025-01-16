@@ -5,5 +5,5 @@ namespace WiseJourneyBackend.Application.Interfaces;
 public interface IGooglePlacesService
 {
     Task<List<PlaceDto>> GetNearbyPlacesAsync(GooglePlacesQuery googlePlacesPreferencesDto);
-    Task<byte[]> GetPhotoAsync(string photoId);
+    Task<string> GetPhotoAsync(string photoId);
 }

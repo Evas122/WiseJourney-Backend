@@ -106,7 +106,7 @@ public class GooglePlacesService : IGooglePlacesService
         )).ToList();
     }
 
-    public async Task<byte[]> GetPhotoAsync(string photoId)
+    public Task<string> GetPhotoAsync(string photoId)
     {
         if (string.IsNullOrEmpty(photoId))
         {
@@ -119,8 +119,6 @@ public class GooglePlacesService : IGooglePlacesService
 
         var photoUrl = $"{baseUrl}{photoId}{photoUrlSuffix}{apiKey}";
 
-        var photoBytes = await _httpClient.GetByteArrayAsync(photoUrl);
-
-        return photoBytes;
+        return Task.FromResult(photoUrl);
     }
 }
