@@ -42,10 +42,6 @@ public class SavePlacesValidator : AbstractValidator<SavePlacesCommand>
             RuleFor(x => x.Geometry)
                 .SetValidator(new SaveGeometryValidator());
 
-            RuleFor(x => x.OpeningHour)
-                .SetValidator(new SaveOpeningHourValidator())
-                .When(x => x.OpeningHour != null);
-
             RuleForEach(x => x.PlaceTypes)
                 .SetValidator(new SavePlaceTypeValidator());
         }
@@ -63,27 +59,12 @@ public class SavePlacesValidator : AbstractValidator<SavePlacesCommand>
         }
     }
 
-    public class SaveOpeningHourValidator : AbstractValidator<SaveOpeningHour>
-    {
-        public SaveOpeningHourValidator()
-        {
-            RuleFor(x => x.WeeklyHours)
-                .NotEmpty().WithMessage("Weekly hours cannot be empty.");
-
-            RuleForEach(x => x.WeeklyHours)
-                .SetValidator(new SaveWeeklyHourValidator());
-        }
-    }
-
     public class SaveWeeklyHourValidator : AbstractValidator<SaveWeeklyHour>
     {
         public SaveWeeklyHourValidator()
         {
             RuleFor(x => x.Day)
                 .IsInEnum().WithMessage("Invalid day of the week.");
-
-            RuleFor(x => x.OpenTime)
-                .LessThan(x => x.CloseTime).WithMessage("Open time must be before close time.");
         }
     }
 

@@ -1,11 +1,12 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WiseJourneyBackend.Application.Commands.GeneratePlaces;
 using WiseJourneyBackend.Application.Commands.SavePlaces;
 using WiseJourneyBackend.Application.Queries.GetPhoto;
 
 namespace WiseJourneyBackend.Api.Controllers;
 
+[Authorize]
 public class PlacesController : BaseController
 {
     private readonly IMediator _mediator;

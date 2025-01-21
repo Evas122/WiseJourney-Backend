@@ -10,23 +10,18 @@ public static class TripExtension
     {
         return new TripDto(
         trip.Id,
-        trip.Name,
-        trip.StartDateUtc,
-        trip.EndDateUtc);
+        trip.Name);
     }
 
     public static TripDetailsDto ToDetailsDto(this Trip trip)
     {
         return new TripDetailsDto(
             trip.Name,
-            trip.StartDateUtc,
-            trip.EndDateUtc,
             trip.TripDays.Select(td => new TripDayDto(
-                td.DateUtc,
+               td.Day,
                 td.TripPlaces.Select(tp => new TripPlaceDto(
                     tp.PlaceId,
-                    tp.Place.ToDto(),
-                     tp.ScheduleTimeUtc ?? DateTime.MinValue
+                    tp.Place.ToDto()
                 )).ToList()
             )).ToList()
         );

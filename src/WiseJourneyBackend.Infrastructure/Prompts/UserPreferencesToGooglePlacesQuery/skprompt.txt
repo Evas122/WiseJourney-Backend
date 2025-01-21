@@ -30,9 +30,8 @@ Generate a JSON object for GooglePlacesPreferencesDto based on the user's prefer
 
 5. `Queries`: Include flexible search terms related to `Activities` and `SpecificLocations` where applicable.
 
-Respond with a JSON object strictly in the format:
+**Respond with a JSON object strictly in the format**:
 
-```json
 {
   "PlaceTypes": ["string"],
   "PriceLevel": 0,

@@ -12,8 +12,6 @@ public class TripEntityTests
         {
             Id = Guid.NewGuid(),
             Name = "Sample Trip",
-            StartDateUtc = new DateTime(2024, 5, 1),
-            EndDateUtc = new DateTime(2024, 5, 10),
             UserId = Guid.NewGuid(),
             TripDays = new List<TripDay>()
         };
@@ -38,8 +36,8 @@ public class TripEntityTests
     {
         // Arrange
         var trip = new Trip { Id = Guid.NewGuid(), Name = "Road Trip" };
-        var tripDay1 = new TripDay { Id = Guid.NewGuid(), DateUtc = new DateTime(2024, 6, 1), Trip = trip };
-        var tripDay2 = new TripDay { Id = Guid.NewGuid(), DateUtc = new DateTime(2024, 6, 2), Trip = trip };
+        var tripDay1 = new TripDay { Id = Guid.NewGuid(), Trip = trip };
+        var tripDay2 = new TripDay { Id = Guid.NewGuid(), Trip = trip };
 
         // Act
         trip.TripDays.Add(tripDay1);

@@ -5,14 +5,11 @@ namespace WiseJourneyBackend.Application.Commands.CreateTrip;
 
 public record CreateTripCommand(
     string Name,
-    DateTime StartDateUtc,
-    DateTime EndDateUtc,
     List<CreateTripDay> TripDays) : ICommand<Unit>;
 
 public record CreateTripDay(
-    DateTime DateUtc,
+    int Day,
     List<CreateTripPlace> TripPlaces);
 
 public record CreateTripPlace(
-    string PlaceId,
-    DateTime? ScheduleTimeUtc);
+    string PlaceId);

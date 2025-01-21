@@ -13,22 +13,13 @@ public class CreateTripDayValidatorTests
     }
 
     [Fact]
-    public void ShouldHaveValidationErrorFor_DateUtc_WhenDateIsEmpty()
-    {
-        var model = new CreateTripDay(default, new List<CreateTripPlace>());
-        var result = _validator.TestValidate(model);
-        result.ShouldHaveValidationErrorFor(x => x.DateUtc)
-              .WithErrorMessage("Day date is required.");
-    }
-
-    [Fact]
     public void ShouldNotHaveValidationErrorFor_ValidTripPlaces()
     {
         var model = new CreateTripDay(
-            DateUtc: DateTime.UtcNow,
+            Day: 1,
             TripPlaces: new List<CreateTripPlace>
             {
-                new CreateTripPlace(PlaceId: "Place1", ScheduleTimeUtc: DateTime.UtcNow)
+                new CreateTripPlace(PlaceId: "Place1")
             }
         );
         var result = _validator.TestValidate(model);

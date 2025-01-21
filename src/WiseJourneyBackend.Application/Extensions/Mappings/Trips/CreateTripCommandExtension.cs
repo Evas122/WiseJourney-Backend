@@ -11,18 +11,15 @@ public static class CreateTripCommandExtension
         {
             Id = Guid.NewGuid(),
             Name = command.Name,
-            StartDateUtc = command.StartDateUtc,
-            EndDateUtc = command.EndDateUtc,
             UserId = userId,
             TripDays = command.TripDays.Select(td => new TripDay
             {
                 Id = Guid.NewGuid(),
-                DateUtc = td.DateUtc,
+                Day = td.Day,
                 TripPlaces = td.TripPlaces.Select(tp => new TripPlace
                 {
                     Id = Guid.NewGuid(),
-                    PlaceId = tp.PlaceId,
-                    ScheduleTimeUtc = tp.ScheduleTimeUtc
+                    PlaceId = tp.PlaceId
                 }).ToList()
             }).ToList()
         };

@@ -2,6 +2,4 @@
 
 public record TripDto(
     Guid Id,
-    string Name,
-    DateTime StartDateUtc,
-    DateTime EndDateUtc);
+    string Name);
