@@ -25,11 +25,13 @@ public class JwtService : IJwtService
     public string GenerateJwtToken(List<Claim> claims)
     {
         var secretKey = _configuration["Jwt:SecretKey"];
+        if (string.IsNullOrWhiteSpace(secretKey))
+        {
+            throw new ConfigurationException("JWT secret key is not configured or is empty.");
+        }
         var expire = _configuration.GetValue<double>("Jwt:AccessTokenExpirationMinutes");
 
-        var key = secretKey != null
-            ? new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
-            : throw new ConfigurationException("JWT secret key is not configured or is empty.");
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
 
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
@@ -119,14 +121,28 @@ public class JwtService : IJwtService
             ClockSkew = TimeSpan.Zero
         };
 
-        var principal = tokenHandler.ValidateToken(token, validationParameters, out var securityToken);
-
-        if (securityToken is JwtSecurityToken jwtToken &&
-            jwtToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+        try
         {
-            return principal;
-        }
+            var principal = tokenHandler.ValidateToken(token, validationParameters, out var securityToken);
 
-        return null;
+            if (securityToken is JwtSecurityToken jwtToken &&
+                jwtToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+            {
+                return principal;  // Token jest poprawny
+            }
+        }
+        catch (SecurityTokenMalformedException)
+        {
+            return null;
+        }
+        catch (SecurityTokenInvalidSignatureException)
+        {
+            return null;
+        }
+        catch (Exception)
+        {
+            return null;
+        }
+        return null; 
     }
 }

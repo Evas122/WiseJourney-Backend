@@ -68,31 +68,6 @@ public class GooglePlacesService : IGooglePlacesService
         return placeDtos;
     }
 
-    private List<PlaceDto> FilterResultsByPreferences(List<PlaceDto> placeDtos, GooglePlacesPreferencesDto preferences)
-    {
-        //TODO filter is not working property because many places have 0 price level so better filter in hotel or something else 
-        var filteredResults = placeDtos;
-
-        if (preferences.PriceLevel >= 0)
-        {
-            filteredResults = filteredResults.Where(p => p.PriceLevel == preferences.PriceLevel).ToList();
-        }
-
-        if (!string.IsNullOrEmpty(preferences.Keyword))
-        {
-            filteredResults = filteredResults.Where(p => p.Name.Contains(preferences.Keyword, StringComparison.OrdinalIgnoreCase) ||
-                                                         p.FullAddress.Contains(preferences.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
-        }
-
-        if (preferences.Queries != null && preferences.Queries.Any())
-        {
-            filteredResults = filteredResults.Where(p => preferences.Queries.Any(query => p.Name.Contains(query, StringComparison.OrdinalIgnoreCase) ||
-                                                                                            p.FullAddress.Contains(query, StringComparison.OrdinalIgnoreCase))).ToList();
-        }
-
-        return filteredResults;
-    }
-
     private List<PlaceDto> MapToPlaceDtoList(SearchNearbyResponse response)
     {
         return response.Places.Select(p => new PlaceDto(
