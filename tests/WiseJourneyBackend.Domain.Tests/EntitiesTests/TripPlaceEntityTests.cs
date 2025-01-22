@@ -13,8 +13,7 @@ public class TripPlaceEntityTests
         {
             Id = Guid.NewGuid(),
             PlaceId = "SamplePlaceId",
-            TripDayId = Guid.NewGuid(),
-            ScheduleTimeUtc = new DateTime(2024, 5, 3, 14, 0, 0)
+            TripDayId = Guid.NewGuid()
         };
     }
 
@@ -34,22 +33,11 @@ public class TripPlaceEntityTests
     public void TripPlace_ShouldBeAssociatedWithTripDay()
     {
         // Arrange
-        var tripDay = new TripDay { Id = Guid.NewGuid(), DateUtc = new DateTime(2024, 5, 10) };
+        var tripDay = new TripDay { Id = Guid.NewGuid()};
         var tripPlace = new TripPlace { Id = Guid.NewGuid(), TripDay = tripDay, TripDayId = tripDay.Id };
 
         // Assert
         Assert.Equal(tripDay.Id, tripPlace.TripDayId);
         Assert.Equal(tripDay, tripPlace.TripDay);
-    }
-
-    [Fact]
-    public void TripPlace_ShouldStoreScheduleTime()
-    {
-        // Arrange
-        var scheduleTime = new DateTime(2024, 5, 10, 14, 0, 0);
-        var tripPlace = new TripPlace { Id = Guid.NewGuid(), ScheduleTimeUtc = scheduleTime };
-
-        // Assert
-        Assert.Equal(scheduleTime, tripPlace.ScheduleTimeUtc);
     }
 }

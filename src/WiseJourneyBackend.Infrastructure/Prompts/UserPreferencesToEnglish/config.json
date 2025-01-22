@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "type": "completion",
+  "description": "Translate user preferences to english.",
+  "execution_settings": {
+    "default": {
+      "temperature": 0.4
+    }
+  },
+  "input_variables": [
+    {
+      "name": "user_preferences",
+      "description": "user preferences about journey to translate.",
+      "required": true
+    }
+  ]
+}

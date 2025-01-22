@@ -1,5 +1,5 @@
 ﻿namespace WiseJourneyBackend.Application.Dtos.Trip;
 
 public record TripDayDto(
-    DateTime DateUtc,
+    int Day,
     List<TripPlaceDto> TripPlaces);

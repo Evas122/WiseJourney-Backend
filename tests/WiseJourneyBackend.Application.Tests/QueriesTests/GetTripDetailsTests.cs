@@ -84,13 +84,11 @@ public class GetTripDetailsHandlerTests
         {
             Id = tripId,
             Name = "Trip to Paris",
-            StartDateUtc = DateTime.UtcNow,
-            EndDateUtc = DateTime.UtcNow.AddDays(7),
             TripDays = new List<TripDay>
         {
             new TripDay
             {
-                DateUtc = DateTime.UtcNow,
+                Day = 1,
                 TripPlaces = new List<TripPlace>()
             }
         }
@@ -121,8 +119,6 @@ public class GetTripDetailsHandlerTests
         // Assert
         Assert.NotNull(result);
         Assert.Equal(trip.Name, result.Name);
-        Assert.Equal(trip.StartDateUtc, result.StartDateUtc);
-        Assert.Equal(trip.EndDateUtc, result.EndDateUtc);
         Assert.Single(result.TripDays);
     }
 }

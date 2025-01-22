@@ -21,6 +21,8 @@ public static class ServiceCollectionExtension
         services.AddHttpContextAccessor();
         services.AddEmailExtensions(configuration);
         services.AddAuthExtensions();
+
+        services.AddHttpClient();
         
         services.AddRepositories();
 

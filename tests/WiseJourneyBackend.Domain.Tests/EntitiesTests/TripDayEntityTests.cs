@@ -11,24 +11,9 @@ public class TripDayEntityTests
         _tripDay = new TripDay
         {
             Id = Guid.NewGuid(),
-            DateUtc = new DateTime(2024, 5, 2),
             TripId = Guid.NewGuid(),
             TripPlaces = new List<TripPlace>()
         };
-    }
-
-    [Fact]
-    public void TripDay_ShouldHaveCorrectDate()
-    {
-        // Arrange
-        var tripDay = new TripDay
-        {
-            Id = Guid.NewGuid(),
-            DateUtc = new DateTime(2024, 5, 10)
-        };
-
-        // Assert
-        Assert.Equal(new DateTime(2024, 5, 10), tripDay.DateUtc);
     }
 
     [Fact]
@@ -47,7 +32,7 @@ public class TripDayEntityTests
     public void TripDay_ShouldInitializeWithEmptyTripPlaces()
     {
         // Arrange
-        var tripDay = new TripDay { Id = Guid.NewGuid(), DateUtc = DateTime.UtcNow };
+        var tripDay = new TripDay { Id = Guid.NewGuid()};
 
         // Assert
         Assert.Empty(tripDay.TripPlaces);

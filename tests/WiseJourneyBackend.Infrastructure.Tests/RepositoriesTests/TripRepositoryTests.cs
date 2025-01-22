@@ -30,15 +30,13 @@ public class TripRepositoryTests
         {
             Id = Guid.NewGuid(),
             Name = "Test Trip",
-            StartDateUtc = DateTime.UtcNow,
-            EndDateUtc = DateTime.UtcNow.AddDays(7),
             UserId = Guid.NewGuid(),
             TripDays = new List<TripDay>
         {
             new TripDay
             {
                 Id = Guid.NewGuid(),
-                DateUtc = DateTime.UtcNow.AddDays(1),
+                Day = 1,
                 TripPlaces = new List<TripPlace>
                 {
                     new TripPlace
@@ -81,8 +79,6 @@ public class TripRepositoryTests
         {
             Id = Guid.NewGuid(),
             Name = "Old Name",
-            StartDateUtc = DateTime.UtcNow,
-            EndDateUtc = DateTime.UtcNow.AddDays(7),
             UserId = Guid.NewGuid()
         };
 
@@ -107,8 +103,6 @@ public class TripRepositoryTests
         {
             Id = Guid.NewGuid(),
             Name = "Test Trip",
-            StartDateUtc = DateTime.UtcNow,
-            EndDateUtc = DateTime.UtcNow.AddDays(7),
             UserId = Guid.NewGuid()
         };
 
@@ -159,15 +153,13 @@ public class TripRepositoryTests
         {
             Id = Guid.NewGuid(),
             Name = "Test Trip",
-            StartDateUtc = DateTime.UtcNow,
-            EndDateUtc = DateTime.UtcNow.AddDays(7),
             UserId = Guid.NewGuid(),
             TripDays = new List<TripDay>
         {
             new TripDay
             {
                 Id = Guid.NewGuid(),
-                DateUtc = DateTime.UtcNow.AddDays(1),
+                Day = 1,
                 TripPlaces = new List<TripPlace>
                 {
                     new TripPlace
@@ -189,10 +181,8 @@ public class TripRepositoryTests
         // Assert
         Assert.NotNull(result);
         Assert.Equal("Test Trip", result.Name);
-        Assert.Equal(trip.StartDateUtc, result.StartDateUtc);
         Assert.Single(result.TripDays);
         var tripDay = result.TripDays.First();
-        Assert.Equal(trip.TripDays.First().DateUtc, tripDay.DateUtc);
         Assert.Single(tripDay.TripPlaces);
         var tripPlace = tripDay.TripPlaces.First();
         Assert.Equal("Place1", tripPlace.PlaceId);
@@ -223,15 +213,13 @@ public class TripRepositoryTests
         {
             Id = Guid.NewGuid(),
             Name = "Test Trip",
-            StartDateUtc = DateTime.UtcNow,
-            EndDateUtc = DateTime.UtcNow.AddDays(7),
             UserId = Guid.NewGuid(),
             TripDays = new List<TripDay>
             {
                 new TripDay
                 {
                     Id = Guid.NewGuid(),
-                    DateUtc = DateTime.UtcNow.AddDays(1),
+                    Day = 1,
                     TripPlaces = new List<TripPlace>
                     {
                         new TripPlace
@@ -267,15 +255,13 @@ public class TripRepositoryTests
         {
             Id = Guid.NewGuid(),
             Name = "Test Trip",
-            StartDateUtc = DateTime.UtcNow,
-            EndDateUtc = DateTime.UtcNow.AddDays(7),
             UserId = Guid.NewGuid(),
             TripDays = new List<TripDay>
         {
             new TripDay
             {
                 Id = Guid.NewGuid(),
-                DateUtc = DateTime.UtcNow.AddDays(1),
+                Day = 1,
                 TripPlaces = new List<TripPlace>
                 {
                     new TripPlace
@@ -356,15 +342,13 @@ public class TripRepositoryTests
         {
             Id = Guid.NewGuid(),
             Name = "Trip Without Place",
-            StartDateUtc = DateTime.UtcNow,
-            EndDateUtc = DateTime.UtcNow.AddDays(5),
             UserId = Guid.NewGuid(),
             TripDays = new List<TripDay>
         {
             new TripDay
             {
                 Id = Guid.NewGuid(),
-                DateUtc = DateTime.UtcNow.AddDays(1),
+                Day = 1,
                 TripPlaces = new List<TripPlace>
                 {
                     new TripPlace
@@ -389,8 +373,6 @@ public class TripRepositoryTests
         {
             Id = Guid.NewGuid(),
             Name = "Simple Trip",
-            StartDateUtc = DateTime.UtcNow,
-            EndDateUtc = DateTime.UtcNow.AddDays(3),
             UserId = Guid.NewGuid()
         };
 

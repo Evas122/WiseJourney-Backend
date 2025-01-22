@@ -1,6 +1,6 @@
 ﻿namespace WiseJourneyBackend.Application.Dtos.Recommendation;
 
-public record GooglePlacesPreferencesDto(
+public record GooglePlacesQuery(
     List<string> PlaceTypes,
     int PriceLevel,         
     int Radius,             

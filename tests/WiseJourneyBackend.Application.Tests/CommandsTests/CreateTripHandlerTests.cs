@@ -40,11 +40,10 @@ public class CreateTripHandlerTests
         // Arrange
         var command = new CreateTripCommand(
             "Test Trip",
-            DateTime.UtcNow.AddDays(1),
-            DateTime.UtcNow.AddDays(7),
+
             new List<CreateTripDay>
             {
-                new CreateTripDay(DateTime.UtcNow, new List<CreateTripPlace>())
+                new CreateTripDay(1, new List<CreateTripPlace>())
             }
         );
 
@@ -61,8 +60,6 @@ public class CreateTripHandlerTests
         // Arrange
         var command = new CreateTripCommand(
             "Test Trip",
-            DateTime.UtcNow.AddDays(1),
-            DateTime.UtcNow.AddDays(7),
             new List<CreateTripDay>()
         );
 
@@ -80,11 +77,9 @@ public class CreateTripHandlerTests
         // Arrange
         var command = new CreateTripCommand(
             "Test Trip",
-            DateTime.UtcNow.AddDays(1),
-            DateTime.UtcNow.AddDays(7),
             new List<CreateTripDay>
             {
-                new CreateTripDay(DateTime.UtcNow, new List<CreateTripPlace>())
+                new CreateTripDay(2, new List<CreateTripPlace>())
             }
         );
 
@@ -101,11 +96,9 @@ public class CreateTripHandlerTests
         // Arrange
         var command = new CreateTripCommand(
             "Test Trip",
-            DateTime.UtcNow.AddDays(1),
-            DateTime.UtcNow.AddDays(7),
             new List<CreateTripDay>
             {
-                new CreateTripDay(DateTime.UtcNow, new List<CreateTripPlace>())
+                new CreateTripDay(3, new List<CreateTripPlace>())
             }
         );
 
@@ -115,26 +108,5 @@ public class CreateTripHandlerTests
 
         // Act & Assert
         await Assert.ThrowsAsync<Exception>(() => _handler.Handle(command, CancellationToken.None));
-    }
-
-    [Fact]
-    public async Task Handle_ShouldMapCommandToEntityCorrectly()
-    {
-        // Arrange
-        var command = new CreateTripCommand(
-            "Test Trip",
-            DateTime.UtcNow.AddDays(1),
-            DateTime.UtcNow.AddDays(7),
-            new List<CreateTripDay>
-            {
-                new CreateTripDay(DateTime.UtcNow, new List<CreateTripPlace>())
-            }
-        );
-
-        // Act
-        await _handler.Handle(command, CancellationToken.None);
-
-        // Assert
-        _tripRepositoryMock.Verify(x => x.AddTripAsync(It.Is<Trip>(t => t.Name == "Test Trip" && t.StartDateUtc == command.StartDateUtc)), Times.Once);
     }
 }

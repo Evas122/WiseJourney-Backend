@@ -32,6 +32,7 @@ public class SavePlacesHandlerTests
                 4.5,
                 100,
                 3,
+                "132131221512412431asdasdasgfa",
                 new SaveGeometry(52.52, 13.405),
                 new SaveOpeningHour(true, new List<SaveWeeklyHour>
                 {
@@ -83,6 +84,7 @@ public class SavePlacesHandlerTests
             4.5,
             100,
             3,
+            "asdasdkjlasj23ajk2l3lka",
             new SaveGeometry(52.52, 13.405),
             new SaveOpeningHour(true, new List<SaveWeeklyHour>
             {
@@ -110,6 +112,7 @@ public class SavePlacesHandlerTests
             4.5,
             100,
             3,
+            "asdasdkjlasj23ajk2l3lka",
             new SaveGeometry(52.52, 13.405),
             new SaveOpeningHour(true, new List<SaveWeeklyHour>
             {

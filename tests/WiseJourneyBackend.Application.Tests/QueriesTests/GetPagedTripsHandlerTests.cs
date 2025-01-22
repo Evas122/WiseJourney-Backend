@@ -32,16 +32,12 @@ public class GetPagedTripsHandlerTests
         new Trip
         {
             Id = Guid.NewGuid(),
-            Name = "Trip 1",
-            StartDateUtc = DateTime.UtcNow,
-            EndDateUtc = DateTime.UtcNow.AddDays(2)
+            Name = "Trip 1"
         },
         new Trip
         {
             Id = Guid.NewGuid(),
-            Name = "Trip 2",
-            StartDateUtc = DateTime.UtcNow.AddDays(3),
-            EndDateUtc = DateTime.UtcNow.AddDays(5)
+            Name = "Trip 2"
         }
     };
 
@@ -51,9 +47,7 @@ public class GetPagedTripsHandlerTests
 
         var tripDtos = trips.Select(t => new TripDto(
             t.Id,
-            t.Name,
-            t.StartDateUtc,
-            t.EndDateUtc)).ToList();
+            t.Name)).ToList();
 
         var claimsPrincipalMock = new Mock<ClaimsPrincipal>();
         claimsPrincipalMock.Setup(c => c.FindFirst(ClaimTypes.NameIdentifier))
@@ -139,14 +133,14 @@ public class GetPagedTripsHandlerTests
         var userId = Guid.NewGuid();
         var trips = new List<Trip>
     {
-        new Trip { Id = Guid.NewGuid(), Name = "Trip 1", StartDateUtc = DateTime.UtcNow, EndDateUtc = DateTime.UtcNow.AddDays(2) },
-        new Trip { Id = Guid.NewGuid(), Name = "Trip 2", StartDateUtc = DateTime.UtcNow.AddDays(3), EndDateUtc = DateTime.UtcNow.AddDays(5) }
+        new Trip { Id = Guid.NewGuid(), Name = "Trip 1",},
+        new Trip { Id = Guid.NewGuid(), Name = "Trip 2" }
     };
         var totalItems = 2;
         var page = 2;
         var pageSize = 1;
 
-        var tripDtos = trips.Select(t => new TripDto(t.Id, t.Name, t.StartDateUtc, t.EndDateUtc)).ToList();
+        var tripDtos = trips.Select(t => new TripDto(t.Id, t.Name)).ToList();
 
         var claimsPrincipalMock = new Mock<ClaimsPrincipal>();
         claimsPrincipalMock.Setup(c => c.FindFirst(ClaimTypes.NameIdentifier))
@@ -186,8 +180,8 @@ public class GetPagedTripsHandlerTests
         var userId = Guid.NewGuid();
         var trips = new List<Trip>
     {
-        new Trip { Id = Guid.NewGuid(), Name = "Trip 1", StartDateUtc = DateTime.UtcNow, EndDateUtc = DateTime.UtcNow.AddDays(2) },
-        new Trip { Id = Guid.NewGuid(), Name = "Trip 2", StartDateUtc = DateTime.UtcNow.AddDays(3), EndDateUtc = DateTime.UtcNow.AddDays(5) }
+        new Trip { Id = Guid.NewGuid(), Name = "Trip 1"},
+        new Trip { Id = Guid.NewGuid(), Name = "Trip 2"}
     };
         var totalItems = 2;
         var page = 1;
@@ -231,9 +225,9 @@ public class GetPagedTripsHandlerTests
         var userId = Guid.NewGuid();
         var trips = new List<Trip>
     {
-        new Trip { Id = Guid.NewGuid(), Name = "Trip 1", StartDateUtc = DateTime.UtcNow, EndDateUtc = DateTime.UtcNow.AddDays(2) },
-        new Trip { Id = Guid.NewGuid(), Name = "Trip 2", StartDateUtc = DateTime.UtcNow.AddDays(3), EndDateUtc = DateTime.UtcNow.AddDays(5) },
-        new Trip { Id = Guid.NewGuid(), Name = "Trip 3", StartDateUtc = DateTime.UtcNow.AddDays(4), EndDateUtc = DateTime.UtcNow.AddDays(6) }
+        new Trip { Id = Guid.NewGuid(), Name = "Trip 1"},
+        new Trip {Id = Guid.NewGuid(), Name = "Trip 2"},
+        new Trip {Id = Guid.NewGuid(), Name = "Trip 3"}
     };
 
         var totalItems = 3;

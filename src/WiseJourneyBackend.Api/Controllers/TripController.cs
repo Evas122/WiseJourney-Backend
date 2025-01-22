@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WiseJourneyBackend.Application.Commands.CreateTrip;
 using WiseJourneyBackend.Application.Queries.GetPagedTrips;
@@ -6,6 +7,7 @@ using WiseJourneyBackend.Application.Queries.GetTripDetails;
 
 namespace WiseJourneyBackend.Api.Controllers;
 
+[Authorize]
 public class TripController : BaseController
 {
     private readonly IMediator _mediator;

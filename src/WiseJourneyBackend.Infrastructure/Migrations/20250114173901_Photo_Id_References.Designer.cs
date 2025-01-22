@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WiseJourneyBackend.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using WiseJourneyBackend.Infrastructure.Data;
 namespace WiseJourneyBackend.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250114173901_Photo_Id_References")]
+    partial class Photo_Id_References
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -244,9 +247,15 @@ namespace WiseJourneyBackend.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("EndDateUtc")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartDateUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("UpdatedAtUtc")
                         .HasColumnType("datetime2");
@@ -270,8 +279,8 @@ namespace WiseJourneyBackend.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Day")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("DateUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("TripId")
                         .HasColumnType("uniqueidentifier");
@@ -298,6 +307,9 @@ namespace WiseJourneyBackend.Infrastructure.Migrations
                     b.Property<string>("PlaceId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("ScheduleTimeUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("TripDayId")
                         .HasColumnType("uniqueidentifier");

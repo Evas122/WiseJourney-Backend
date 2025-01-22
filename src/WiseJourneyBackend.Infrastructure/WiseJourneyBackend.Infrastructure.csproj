@@ -29,28 +29,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Prompts\GetUserPreferences\" />
-    <Folder Include="Prompts\MappingPreferencesToGooglePlaces\" />
-    <Folder Include="Prompts\UserPreferencesChat\" />
+    <Folder Include="Prompts\UserPreferencesToEnglish\" />
+    <Folder Include="Prompts\UserPreferencesToGooglePlacesQuery\" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Prompts\GetUserPreferences\config.json">
+    <None Update="Prompts\UserPreferencesToEnglish\config.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Prompts\GetUserPreferences\skprompt.txt">
+    <None Update="Prompts\UserPreferencesToEnglish\skprompt.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Prompts\MappingPreferencesToGooglePlaces\config.json">
+    <None Update="Prompts\UserPreferencesToGooglePlacesQuery\config.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Prompts\MappingPreferencesToGooglePlaces\skprompt.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Prompts\UserPreferencesChat\config.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Prompts\UserPreferencesChat\skprompt.txt">
+    <None Update="Prompts\UserPreferencesToGooglePlacesQuery\skprompt.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -9,5 +9,4 @@ public class TripPlace : BaseEntity
     public Place Place { get; set; } = null!;
     public Guid TripDayId { get; set; }
     public TripDay TripDay { get; set; } = null!;
-    public DateTime? ScheduleTimeUtc { get; set; }
 }

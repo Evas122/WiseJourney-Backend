@@ -4,5 +4,6 @@ using WiseJourneyBackend.Application.Dtos.Recommendation;
 namespace WiseJourneyBackend.Application.Interfaces;
 public interface IGooglePlacesService
 {
-    Task<List<PlaceDto>> GetNearbyPlacesAsync(GooglePlacesPreferencesDto googlePlacesPreferencesDto);
+    Task<List<PlaceDto>> GetNearbyPlacesAsync(GooglePlacesQuery googlePlacesPreferencesDto);
+    Task<string> GetPhotoAsync(string photoId);
 }

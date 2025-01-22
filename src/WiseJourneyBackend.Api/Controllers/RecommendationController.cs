@@ -1,34 +1,24 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WiseJourneyBackend.Application.Commands.SendPreferenceMessage;
-using WiseJourneyBackend.Application.Interfaces;
-using WiseJourneyBackend.Application.Queries.ChatHistory;
-using WiseJourneyBackend.Application.Queries.GetRecommendedPlaces;
+using WiseJourneyBackend.Application.Commands.GeneratePlaces;
 
 namespace WiseJourneyBackend.Api.Controllers;
+
+[Authorize]
 public class RecommendationController : BaseController
 {
     private readonly IMediator _mediator;
-    private readonly IRecommendationService _recommendationService;
 
-    public RecommendationController(IMediator mediator, IRecommendationService recommendationService)
+    public RecommendationController(IMediator mediator)
     {
         _mediator = mediator;
-        _recommendationService = recommendationService;
     }
 
-    [HttpPost("send-message")]
-    public async Task<IActionResult> SendUserMessageToChatAsync(SendPreferenceMessageCommand command)
+    [HttpPost("get-recommended-places")]
+    public async Task<IActionResult> GenerateRecommendedPlacesAsync(GeneratePlacesCommand command)
     {
         var result = await _mediator.Send(command);
-
-        return Ok(result);
-    }
-
-    [HttpGet("chat-history")]
-    public async Task<IActionResult> GetUserChatHistoryAsync()
-    {
-        var result = await _mediator.Send(new GetChatHistoryQuery());
 
         return Ok(result);
     }
