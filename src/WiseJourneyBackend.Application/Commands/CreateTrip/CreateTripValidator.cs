@@ -14,7 +14,7 @@ public class CreateTripValidator : AbstractValidator<CreateTripCommand>
 
         RuleFor(x => x.TripDays)
             .NotEmpty().WithMessage("Trip must have at least one day.")
-            .Must(days => days.Select(d => d.DateUtc.Date).Distinct().Count() == days.Count)
+            .Must(days => days.Select(d => d.DateUtc).Distinct().Count() == days.Count)
             .WithMessage("Trip days must not have duplicate dates.");
 
         RuleForEach(x => x.TripDays)
@@ -41,7 +41,7 @@ public class CreateTripValidator : AbstractValidator<CreateTripCommand>
                 .NotEmpty().WithMessage("Place ID is required.");
 
             RuleFor(x => x.ScheduleTimeUtc)
-                .GreaterThan(DateTime.MinValue)
+                .GreaterThan(DateTime.MinValue).When(x => x.ScheduleTimeUtc.HasValue)
                 .WithMessage("Schedule time must be a valid date.");
         }
     }
