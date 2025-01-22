@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WiseJourneyBackend.Application.Commands.CreateTrip;
+using WiseJourneyBackend.Application.Commands.DeleteTrip;
 using WiseJourneyBackend.Application.Queries.GetPagedTrips;
 using WiseJourneyBackend.Application.Queries.GetTripDetails;
 
@@ -38,6 +39,15 @@ public class TripController : BaseController
     {
         var query = new GetTripDetailsQuery(id);
         var result = await _mediator.Send(query);
+        return Ok(result);
+    }
+
+    [HttpDelete("{id}")]
+
+    public async Task<IActionResult> DeleteTrip([FromRoute] Guid id)
+    {
+        var command = new DeleteTripCommand(id);
+        var result = await _mediator.Send(command);
         return Ok(result);
     }
 }

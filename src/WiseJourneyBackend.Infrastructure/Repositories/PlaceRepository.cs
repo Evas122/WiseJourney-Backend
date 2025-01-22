@@ -23,7 +23,7 @@ public class PlaceRepository : IPlaceRepository
 
         var newPlaces = places.Where(p => !existingPlaceIds.Contains(p.Id)).ToList();
 
-        if (newPlaces.Any())
+        if (newPlaces.Count != 0)
         {
             _dbContext.Places.AddRange(newPlaces);
             await _dbContext.SaveChangesAsync();

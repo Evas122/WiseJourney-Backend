@@ -41,6 +41,15 @@ public class TripRepository : ITripRepository
         await _dbContext.SaveChangesAsync();
     }
 
+    public async Task<Trip?> GetTripByIdAsync(Guid tripId)
+    {
+        return await _dbContext.Trips
+            .Include(t => t.TripDays)
+                .ThenInclude(td => td.TripPlaces)
+                    .ThenInclude(tp => tp.Place)
+            .FirstOrDefaultAsync(t => t.Id == tripId);
+    }
+
     public async Task<(IEnumerable<Trip> Items, int TotalItems)> GetUserTripsAsync(Guid userId, int pageNumber, int pageSize)
     {
         var query = _dbContext.Trips
