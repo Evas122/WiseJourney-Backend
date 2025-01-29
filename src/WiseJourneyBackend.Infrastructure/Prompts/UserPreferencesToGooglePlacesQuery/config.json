@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "type": "completion",
+  "description": "Map user preferences to google api places arguments.",
+  "execution_settings": {
+    "default": {
+      "temperature": 0.8
+    }
+  },
+  "input_variables": [
+    {
+      "name": "user_preferences",
+      "description": "user preferences about journey.",
+      "required": true
+    }
+  ]
+}
